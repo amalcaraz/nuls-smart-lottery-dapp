@@ -10,7 +10,7 @@ fs.writeFileSync(configPath, JSON.stringify(config))
 
 module.exports = {
   devServer: {
-    public: '0.0.0.0:8080'
+    public: '0.0.0.0:8081'
   },
   lintOnSave: false,
   pwa: {

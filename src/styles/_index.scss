@@ -1,0 +1,70 @@
+@import 'vendor/index'; 
+@import 'color'; 
+
+*, :after, :before {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0.5em 0 1em;
+}
+
+section {
+  margin-bottom: 2.5em;
+}
+
+.full-height > .flex {
+  display: flex;
+
+  > .v-card {
+    flex: 1 1 auto;
+  }
+}
+
+i.nuls {
+  display: inline-block;
+  height: 0.8em;
+  width: 0.5em;
+  background-image: url(./assets/logo_nuls.png);
+  background-size: contain;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+
+  .theme--light & {
+    filter: none;
+
+    &.dark {
+      filter: grayscale(100%) brightness(0.9);
+    }
+
+  }
+
+  .theme--dark & {
+    filter: grayscale(100%) brightness(0.9);
+
+    &.light {
+      filter: grayscale(100%) brightness(2);
+    }
+  }
+
+  &.primary--text {
+    filter: none;
+  }
+}
+
+.editable:hover {
+  position: relative;
+  cursor: pointer;
+
+  &:after {
+    font-family: 'Material Icons';
+    line-height: 1em;
+    content: 'edit';
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    margin-top: -.5em;
+    height: 1em;
+    width: 1em;
+  }
+}
