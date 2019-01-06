@@ -1,0 +1,12 @@
+version: '3'
+services:
+  lottery-dapp:
+    build:
+      context: ../..
+      dockerfile: ./environment/dev/Dockerfile
+    image: dev/lottery-dapp
+    container_name: dev/lottery-dapp
+    volumes:
+      - ../..:/code
+    ports:
+      - "8081:8080"

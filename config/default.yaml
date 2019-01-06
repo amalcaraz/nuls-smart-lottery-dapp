@@ -1,0 +1,14 @@
+app:
+  env: dev
+  metaBase: /
+  localStoreKey: nulsSmartLotteryDapp
+  contractAddress: TTbB8VocYddVHeCwBvXsgRE11G6BSG5c
+  api:
+    explorer:
+      host: http://localhost:8080
+      base: ''
+    coinmarketcap:
+      host: https://api.coinmarketcap.com
+      base: /v2
+      resources:
+        getNulsPrice: /ticker/2092/?convert=EUR
