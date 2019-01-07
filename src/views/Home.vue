@@ -6,7 +6,7 @@
       </div>
       <lottery-list v-else
         :lotteryList="lotteryList"
-        @selected="onSelect"></lottery-list>
+        @buyTickets="onBuyTickets"></lottery-list>
     </v-layout>
     <v-btn :to="{name: 'new-lottery'}" absolute dark fab bottom right color="primary">
       <v-icon>add</v-icon>
@@ -29,7 +29,9 @@ import LotteryList from '../components/LotteryList.vue';
 })
 export default class Home extends Vue {
 
-  public onSelect() {}
+  public onBuyTickets(id: number) {
+    this.$router.push({ name: 'buy-tickets', params: { lottery: id.toString() } });
+  }
 
 }
 </script>

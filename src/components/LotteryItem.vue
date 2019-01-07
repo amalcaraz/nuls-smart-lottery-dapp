@@ -1,15 +1,24 @@
 <template>
-  <v-card elevation-1 :ripple="{class: 'primary--text'}" class="lottery-item">
+  <!-- <v-card elevation-1 :ripple="{class: 'primary--text'}" class="lottery-item"> -->
+  <v-card elevation-1 class="lottery-item">
      <v-img
           :src="`https://picsum.photos/400/200?blur&amp;image=${lottery.id + 100}`"
-          aspect-ratio="2.2"
-        ></v-img>
-    <v-card-title primary-title>
+          aspect-ratio="2.2">
+          <v-container fill-height fluid>
+            <v-layout fill-height>
+              <v-flex xs12 align-end flexbox class="head-title">
+                <span class="headline mb-0">{{lottery.title}}</span>
+                <div class="description">{{getDescription(lottery.desc)}}</div>
+              </v-flex>
+            </v-layout>
+          </v-container>
+      </v-img>
+    <!-- <v-card-title primary-title>
       <div>
         <h3 class="headline mb-0">{{lottery.title}}</h3>
         <div class="description">{{getDescription(lottery.desc)}}</div>
       </div>
-    </v-card-title>
+    </v-card-title> -->
     <v-card-text>
       <div><strong>Status: </strong><span class="grey--text">{{lottery.status | lotteryStatus}}</span></div>
       <!-- TODO: Participants progress bar instead of min participants -->      
@@ -36,8 +45,9 @@
 
     </v-card-text>
     <v-card-actions>
-      <v-btn flat color="blue">Buy tickets</v-btn>
-      <v-btn flat color="primary">Resolve</v-btn>
+      <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
+      <v-btn flat color="orange" @click="onDetail(lottery.id)">Details</v-btn>
+      <v-btn flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -84,15 +94,45 @@ export default class LotteryItem extends Vue {
 
   }
 
+  public onBuyTickets(id: number) {
+    this.$emit('buyTickets', id);
+  }
+
+  public onDetail(id: number) {
+    this.$emit('detail', id);
+  }
+
+  public onResolve(id: number) {
+    this.$emit('resolve', id);
+  }
+
 }
 </script>
 
 <style lang="scss" scoped>
 .lottery-item {
-  cursor: pointer;
+  // cursor: pointer;
 
   strong {
     font-weight: 400;
+  }
+
+  .head-title {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+
+      background-color: rgba(255, 255, 255, 0.35);
+      border-radius: 5px;
+      filter: blur(10px);
+    }
   }
 
   .description {

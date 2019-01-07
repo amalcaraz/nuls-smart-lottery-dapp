@@ -12,13 +12,12 @@
           :rules="requiredRules"
           required
         ></v-text-field>
-        <v-text-field
+        <v-textarea
           label="Description"
           v-model="modelLottery.desc"
-          type="text"
           :rules="requiredRules"
           required
-        ></v-text-field>
+        ></v-textarea>
         <date-time-picker-dialog-field v-model="modelLottery.startTime"
                                        label="Start Date"></date-time-picker-dialog-field>
         <date-time-picker-dialog-field v-model="modelLottery.endTime"
@@ -84,7 +83,7 @@
         <v-btn color="error" flat @click.stop="onCancel">Cancel</v-btn>
         <v-btn color="warning" flat @click.stop="$refs.form.reset()">Reset</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" type="submit" :disabled="!valid">Submit</v-btn>
+        <v-btn color="primary" type="submit" :disabled="!valid">Create lottery</v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
@@ -148,7 +147,7 @@ export default class NewLotteryForm extends Vue {
 
   public onSubmit() {
     if (this.valid) {
-      this.$emit('lottery', this.getResponse());
+      this.$emit('submit', this.getResponse());
       // this.clearForm();
     }
   }

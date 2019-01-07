@@ -1,3 +1,4 @@
+import { BuyTicketsModel } from './../../model/lottery';
 import * as lotteryService from '../../services/lottery';
 import {
   LotteryList,
@@ -59,6 +60,7 @@ export default {
   },
   getters: {
     lotteryList: (state: any) => state.lotteryList,
+    lottery: (state: any) => (id: string) => state.lotteryList.find((lottery: Lottery) => lottery.id === parseInt(id, 10)),
     // lotteryListByAddress: (state: any) => (addr: address) => filterLotteryByAddress(state.lotteryList, addr),
     // lotteryListByFrom: (state: any) => (addr: address) => filterLotteryByFrom(state.lotteryList, addr),
     // lotteryListByTo: (state: any) => (addr: address) => filterLotteryByTo(state.lotteryList, addr),
@@ -79,8 +81,19 @@ export default {
   },
   actions: {
     async fetchLottery({ commit }: any, filters: LotteryFilters) {
+
       const response: LotteryList = await lotteryService.getLotteryList(filters);
       commit('addLottery', response);
+
+    },
+    async getLottery({ dispatch, getters }: any, id: number) {
+
+      const lottery: Lottery = getters.lottery(id);
+
+      if (!lottery) {
+        await dispatch('fetchLottery');
+      }
+
     },
     async newLottery({ commit, dispatch, rootGetters }: any, lottery: NewLotteryModel) {
 
@@ -88,21 +101,42 @@ export default {
 
       const response: string = await lotteryService.newLottery({
         address: 'TTarN3iszzfkh2j4doWHsMw3LxJJrq25',
-        privateKey: '...',
+        privateKey: 'xxx',
       }, lottery);
 
       console.log('pending tx => ', lottery, response);
 
-      await new Promise((resolve) => {
+      await waitAndFetchLottery(dispatch);
 
-        setTimeout(async () => {
-          await dispatch('fetchLottery');
-          resolve();
-        }, 1000 * 10);
-        // commit('addLottery', response);
+    },
 
-      });
+    async buyTickets({ commit, dispatch }: any, tickets: BuyTicketsModel) {
+
+      commit('layout/setLoading', true, { root: true });
+
+      const response: string = await lotteryService.buyTickets({
+        address: 'TTarN3iszzfkh2j4doWHsMw3LxJJrq25',
+        privateKey: 'xxx',
+      }, tickets);
+
+      console.log('pending tx => ', tickets, response);
+
+      await waitAndFetchLottery(dispatch);
 
     },
   },
 };
+
+function waitAndFetchLottery(dispatch: any) {
+
+  return new Promise((resolve) => {
+
+    setTimeout(async () => {
+      await dispatch('fetchLottery');
+      resolve();
+    }, 1000 * 10);
+    // commit('addLottery', response);
+
+  });
+
+}

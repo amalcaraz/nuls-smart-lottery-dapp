@@ -1,3 +1,4 @@
+import { BuyTicketsModel } from './../model/lottery';
 import config from 'config';
 import { LotteryFilters, LotteryList, NewLotteryModel } from '../model/lottery';
 import { Contract, TransactionHash } from 'nuls-js';
@@ -66,6 +67,21 @@ export async function newLottery(account: NulsAccount, lottery: NewLotteryModel)
     );
 
   }
+
+}
+
+export async function buyTickets(account: NulsAccount, tickets: BuyTicketsModel): Promise<TransactionHash> {
+
+  const contract: any = await getContract();
+
+  return await contract.buyTickets(
+    tickets.id.toString(),
+    {
+      sender: account.address,
+      privateKey: account.privateKey,
+      value: (tickets.ticketsCount * tickets.ticketPrice) || 0,
+    },
+  );
 
 }
 

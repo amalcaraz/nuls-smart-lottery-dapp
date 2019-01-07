@@ -37,5 +37,11 @@ export interface NewLotteryModel {
   supportPercentage?: number;
 }
 
+export interface BuyTicketsModel {
+  id: number;
+  ticketPrice: na;
+  ticketsCount: number;
+}
+
 export type LotteryList = Lottery[];
 export type LotteryFilters = any;

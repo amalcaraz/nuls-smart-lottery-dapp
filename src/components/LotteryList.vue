@@ -6,7 +6,9 @@
           <v-flex xs12 sm6 lg4 v-for="lottery in lotteryListFiltered" :key="lottery.agentId">
             <div class="items-wrapper">
               <lottery-item :lottery="lottery"
-                            @click.native="onClick(lottery)"></lottery-item>
+                            @buyTickets="onBuyTickets($event)"
+                            @detail="onDetail($event)"
+                            @resolve="onResolve($event)"></lottery-item>
             </div>
           </v-flex>
           <v-flex v-if="!lotteryList || lotteryList.length === 0">
@@ -53,9 +55,21 @@ export default class LotteryLost extends Vue {
 
   }
 
-  public onClick(lottery: Lottery) {
-    this.$emit('selected', lottery);
+  public onBuyTickets(id: number) {
+    this.$emit('buyTickets', id);
   }
+
+  public onDetail(id: number) {
+    this.$emit('detail', id);
+  }
+
+  public onResolve(id: number) {
+    this.$emit('resolve', id);
+  }
+
+  // public onClick(lottery: Lottery) {
+  //   this.$emit('selected', lottery);
+  // }
 
 }
 </script>

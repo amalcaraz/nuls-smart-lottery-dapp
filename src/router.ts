@@ -28,6 +28,18 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "new-lottery" */ './views/NewLottery.vue'),
     },
     {
+      path: '/buy-tickets/:lottery',
+      name: 'buy-tickets',
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch('lottery/getLottery', to.params.lottery);
+        next();
+      },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "buy-tickets" */ './views/BuyTickets.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

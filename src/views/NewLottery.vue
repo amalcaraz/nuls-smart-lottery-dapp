@@ -3,7 +3,7 @@
     <v-layout>
       <v-flex>
        <new-lottery-form @cancel="onCancelForm"
-                         @lottery="onNewLottery"></new-lottery-form>
+                         @submit="onNewLottery"></new-lottery-form>
       </v-flex>
     </v-layout>
   </div>
@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import NewLotteryForm from '../components/NewLotteryForm.vue';
-import { Lottery } from '@/model/lottery';
+import { Lottery, NewLotteryModel } from '@/model/lottery';
 
 @Component({
   components: {
@@ -21,7 +21,7 @@ import { Lottery } from '@/model/lottery';
 })
 export default class NewLottery extends Vue {
 
-  public async onNewLottery(lottery: NewLotteryForm) {
+  public async onNewLottery(lottery: NewLotteryModel) {
     await this.$store.dispatch('lottery/newLottery', lottery);
     this.$router.push({ name: 'home' });
   }
