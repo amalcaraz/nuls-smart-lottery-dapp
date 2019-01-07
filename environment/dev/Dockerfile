@@ -14,6 +14,6 @@ WORKDIR /code
 
 USER node
 
-EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT [ "./environment/entry.sh" ]
 CMD ["dev"]

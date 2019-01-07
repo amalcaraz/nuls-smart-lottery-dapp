@@ -93,7 +93,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { NewLotteryModel } from '@/model/lottery';
-import { isValidAddress, nulsDecimalsToInt, nulsIntToDecimals } from '../services/utils';
+import { isValidAddress, nulsToNa } from '../services/utils';
 import DateTimePickerDialogField from './DateTimePickerDialogField.vue';
 import moment from 'moment';
 
@@ -160,8 +160,8 @@ export default class NewLotteryForm extends Vue {
   private getResponse(): NewLotteryModel {
     const response: NewLotteryModel = {
       ...this.modelLottery,
-      ticketPrice: nulsDecimalsToInt(parseFloat(this.modelLottery.ticketPrice)),
-      initialPot: nulsDecimalsToInt(parseFloat(this.modelLottery.initialPot)),
+      ticketPrice: parseFloat(this.modelLottery.ticketPrice), // nulsToNa is done in the contract
+      initialPot: nulsToNa(parseFloat(this.modelLottery.initialPot)),
       minParticipants: parseInt(this.modelLottery.minParticipants, 10),
       startTime: moment(this.modelLottery.startTime).clone().valueOf(),
       endTime: moment(this.modelLottery.endTime).clone().valueOf(),

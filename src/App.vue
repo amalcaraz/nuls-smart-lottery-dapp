@@ -29,8 +29,8 @@
       <v-container>
         <v-layout wrap>
           <v-flex xs12 sm6 class="mb-3">
-            <strong class="subheading">Angel Manzano</strong>
-            <div class="caption grey--text">&copy; 2018</div>
+            <strong class="subheading">Angel Manzano <span class="caption grey--text">&copy; 2018</span></strong>
+            <div class="caption">Contract Address: <a :href="contractAddressUrl" target="_blank" class="grey--text">{{contractAddress}}</a></div>
           </v-flex>
           <v-flex xs12 sm6 class="text-sm-right">
             <strong class="subheading">Donation address</strong>
@@ -56,6 +56,8 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
   import { mapGetters, mapMutations } from 'vuex';
+  import { nulsWorldAddressUrl } from './services/utils';
+  import config from 'config';
 
   @Component({
     computed: {
@@ -66,6 +68,8 @@
     },
   })
   export default class App extends Vue {
+    public contractAddress: string = config.app.contractAddress;
+    public contractAddressUrl: string = nulsWorldAddressUrl(this.contractAddress, true);
 
     public get routeTitle(): string {
       return this.$route.meta.title;

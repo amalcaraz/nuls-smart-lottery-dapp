@@ -1,6 +1,7 @@
 app:
   env: production
   metaBase: /nuls-smart-lottery-dapp/
+  nulsWorldUrl: https://nuls.world
   api:
     explorer:
       host: https://nuls.world

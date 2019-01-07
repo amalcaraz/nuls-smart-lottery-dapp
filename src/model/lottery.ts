@@ -31,7 +31,7 @@ export interface NewLotteryModel {
   startTime: dateNumber;
   endTime: dateNumber;
   initialPot: na;
-  ticketPrice: na;
+  ticketPrice: number; // nulsToNa is done in the contract
   secondPrizes: boolean;
   supportAddress?: address;
   supportPercentage?: number;

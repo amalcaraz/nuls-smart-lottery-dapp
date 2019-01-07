@@ -2,7 +2,8 @@ app:
   env: dev
   metaBase: /
   localStoreKey: nulsSmartLotteryDapp
-  contractAddress: TTb9U1UdDNMrA6qvmpdnDqWZsuJw1nZd
+  contractAddress: TTbEm9pHELMZvEqh4kT83A12YjGFvHZE
+  nulsWorldUrl: https://testnet.nuls.world
   itemsToShowSearcher: 10
   api:
     explorer:

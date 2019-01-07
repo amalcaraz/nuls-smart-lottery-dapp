@@ -83,12 +83,15 @@ export default {
       commit('addLottery', response);
     },
     async newLottery({ commit, dispatch, rootGetters }: any, lottery: NewLotteryModel) {
+
+      commit('layout/setLoading', true, { root: true });
+
       const response: string = await lotteryService.newLottery({
         address: 'TTarN3iszzfkh2j4doWHsMw3LxJJrq25',
-        privateKey: '002313549d166b9d6e4781504dfa8b4bd5a03056f226dca3c5d1e21783e4e0d1ee',
+        privateKey: '...',
       }, lottery);
 
-      console.log('pending tx => ', response);
+      console.log('pending tx => ', lottery, response);
 
       await new Promise((resolve) => {
 
