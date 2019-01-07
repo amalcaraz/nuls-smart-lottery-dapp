@@ -8,7 +8,7 @@
             </v-btn>
             <v-toolbar-title class="app-title">
               <template v-if="routeTitle">{{routeTitle}}</template>
-              <template v-else>Nuls smart lottery</template>
+              <template v-else>Nuls Smart Lottery</template>
             </v-toolbar-title>
         </v-layout>
       </v-container>
@@ -65,7 +65,17 @@
       ...mapMutations('layout', ['setReloadClaim']),
     },
   })
-  export default class App extends Vue {}
+  export default class App extends Vue {
+
+    public get routeTitle(): string {
+      return this.$route.meta.title;
+    }
+
+    public reload() {
+      location.reload(true);
+    }
+
+  }
 
 </script>
 

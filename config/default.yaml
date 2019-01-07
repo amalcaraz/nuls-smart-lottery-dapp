@@ -2,10 +2,11 @@ app:
   env: dev
   metaBase: /
   localStoreKey: nulsSmartLotteryDapp
-  contractAddress: TTbB8VocYddVHeCwBvXsgRE11G6BSG5c
+  contractAddress: TTb9U1UdDNMrA6qvmpdnDqWZsuJw1nZd
+  itemsToShowSearcher: 10
   api:
     explorer:
-      host: http://localhost:8080
+      host: https://testnet.nuls.world
       base: ''
     coinmarketcap:
       host: https://api.coinmarketcap.com

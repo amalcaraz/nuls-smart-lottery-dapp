@@ -10,7 +10,9 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "config": "^3.0.1",
+    "moment": "^2.23.0",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.21",
     "vue-class-component": "^6.0.0",
