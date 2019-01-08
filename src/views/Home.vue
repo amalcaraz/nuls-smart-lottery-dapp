@@ -8,6 +8,7 @@
         :lotteryList="lotteryList"
         @buyTickets="onBuyTickets"
         @detail="onDetail"
+        @resolve="onResolve"
         ></lottery-list>
     </v-layout>
     <v-btn :to="{name: 'new-lottery'}" absolute dark fab bottom right color="primary">
@@ -36,6 +37,11 @@ export default class HomeView extends Vue {
   }
 
   public onDetail(id: number) {
+    this.$router.push({ name: 'lottery-detail', params: { lottery: id.toString() } });
+  }
+
+  public async onResolve(id: number) {
+    await this.$store.dispatch('lottery/resolveLottery', id);
     this.$router.push({ name: 'lottery-detail', params: { lottery: id.toString() } });
   }
 

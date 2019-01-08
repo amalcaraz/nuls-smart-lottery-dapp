@@ -92,6 +92,20 @@ export async function buyTickets(account: NulsAccount, tickets: BuyTicketsModel)
 
 }
 
+export async function resolveLottery(account: NulsAccount, lotteryId: number): Promise<TransactionHash> {
+
+  const contract: any = await getContract();
+
+  return await contract.claimPrizes(
+    lotteryId.toString(),
+    {
+      sender: account.address,
+      privateKey: account.privateKey,
+    },
+  );
+
+}
+
 // const contract: any = await Contract.at(config.app.contractAddress, { api: config.app.api.explorer });
 
 // const fromAddress: string = 'TTarN3iszzfkh2j4doWHsMw3LxJJrq25';

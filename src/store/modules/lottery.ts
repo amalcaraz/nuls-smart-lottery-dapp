@@ -3,7 +3,6 @@ import * as lotteryService from '../../services/lottery';
 import {
   LotteryList,
   Lottery,
-  LotteryFilters,
   NewLotteryModel,
 } from '../../model/lottery';
 
@@ -124,7 +123,6 @@ export default {
       await waitAndFetchLotteryList(dispatch);
 
     },
-
     async buyTickets({ commit, dispatch }: any, tickets: BuyTicketsModel) {
 
       commit('layout/setLoading', true, { root: true });
@@ -135,6 +133,20 @@ export default {
       }, tickets);
 
       console.log('pending tx => ', tickets, response);
+
+      await waitAndFetchLotteryList(dispatch);
+
+    },
+    async resolveLottery({ commit, dispatch }: any, id: number) {
+
+      commit('layout/setLoading', true, { root: true });
+
+      const response: string = await lotteryService.resolveLottery({
+        address: 'TTarN3iszzfkh2j4doWHsMw3LxJJrq25',
+        privateKey: 'xxx',
+      }, id);
+
+      console.log('pending tx => ', id, response);
 
       await waitAndFetchLotteryList(dispatch);
 

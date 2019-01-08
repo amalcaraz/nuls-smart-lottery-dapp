@@ -14,17 +14,18 @@
     <v-card-actions>
       <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
       <v-btn flat color="orange" @click="onDetail(lottery.id)">Detail</v-btn>
-      <v-btn flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
+      <v-btn v-if="isResolveLottery" flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import LotteryStatus from '@/components/LotteryStatus.vue';
+import LotteryStatusCmp from '@/components/LotteryStatus.vue';
 import LotteryHeader from '@/components/LotteryHeader.vue';
 import LotterySummary from '@/components/LotterySummary.vue';
-import { Lottery } from '@/model/lottery';
+import { Lottery, LotteryStatus } from '@/model/lottery';
+import moment from 'moment';
 
 @Component({
   components: {
@@ -34,6 +35,13 @@ import { Lottery } from '@/model/lottery';
 })
 export default class LotteryItem extends Vue {
   @Prop({ default: undefined }) public lottery!: Lottery;
+
+  public get isResolveLottery(): boolean {
+
+    const now = moment();
+    return this.lottery.status !== LotteryStatus.CLOSE && now.isSameOrAfter(this.lottery.endTime, 'millisecond');
+
+  }
 
   public onBuyTickets(id: number) {
     this.$emit('buyTickets', id);

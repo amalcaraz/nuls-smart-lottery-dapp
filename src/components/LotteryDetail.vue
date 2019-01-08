@@ -15,15 +15,37 @@
     </section>
     <section>
       <h2 class="title">Tickets</h2>
-      <ticket-list
-        v-if="ticketList.length > 0"
-        :ticketList="ticketList"
-        :ticketPrice="lottery.ticketPrice"
-        @buyTickets="onBuyTickets($event)"
-      ></ticket-list>
-      <div v-else>No tickets sold
-        <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
-      </div>
+      <v-container>
+        <v-layout>
+          <ticket-list
+            v-if="ticketList.length > 0"
+            :ticketList="ticketList"
+            :ticketPrice="lottery.ticketPrice"
+            @buyTickets="onBuyTickets($event)"
+          ></ticket-list>
+          <div v-else>
+            No tickets sold
+            <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
+          </div>
+        </v-layout>
+      </v-container>
+    </section>
+    <section>
+      <h2 class="title">Winners</h2>
+      <v-container>
+        <v-layout>
+          <ticket-list
+            v-if="ticketList.length > 0"
+            :ticketList="ticketList"
+            :ticketPrice="lottery.ticketPrice"
+            @buyTickets="onBuyTickets($event)"
+          ></ticket-list>
+          <div v-else>
+            No tickets sold
+            <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
+          </div>
+        </v-layout>
+      </v-container>
     </section>
   </div>
 </template>
