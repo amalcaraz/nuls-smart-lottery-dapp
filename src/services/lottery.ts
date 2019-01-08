@@ -1,6 +1,6 @@
 import { BuyTicketsModel, LotteryDetail } from './../model/lottery';
 import config from 'config';
-import { LotteryFilters, LotteryList, NewLotteryModel } from '../model/lottery';
+import { LotteryList, NewLotteryModel } from '../model/lottery';
 import { Contract, TransactionHash } from 'nuls-js';
 import { NulsAccount } from '../model/common';
 

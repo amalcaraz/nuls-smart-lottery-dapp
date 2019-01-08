@@ -6,6 +6,8 @@ import { Lottery } from '@/model/lottery';
 
 export { naToNuls, nulsToNa };
 
+export { isValidAddress, isValidPrivateKey } from 'nuls-js';
+
 export function checkResponse<T>(response: AxiosResponse<T>): T {
   if (response.status >= 200 && response.status < 300) {
     return response.data;
@@ -23,10 +25,6 @@ export function naToNulsFixed(nuls: na, fixed: number = 2): number {
   const res: number = naToNuls(nuls);
   const fixedBase: number = Math.pow(10, fixed);
   return (Math.round(res * fixedBase) / fixedBase);
-}
-
-export function isValidAddress(addr: address): boolean {
-  return /^(Ns|TT)([a-zA-Z-0-9]{30})$/.test(addr);
 }
 
 export function nulsWorldAddressUrl(addr: address, contract: boolean = false) {

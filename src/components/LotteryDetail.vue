@@ -1,8 +1,8 @@
 <template>
   <div v-if="lottery">
     <section>
-      <h2 class="title">Detail</h2>
-      <v-container grid-list-md text-xs-left>
+      <!-- <h2 class="title">Detail</h2> -->
+      <v-container grid-list-lg text-xs-left>
         <v-layout row wrap fill-height>
           <v-flex xs12 sm5 >
             <lottery-header class="lottery-header" :lottery="lottery" :fullDesc="true"></lottery-header>

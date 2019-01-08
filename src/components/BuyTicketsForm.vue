@@ -2,7 +2,7 @@
   <v-form @submit.prevent="onSubmit" v-model="valid" ref="form">
     <v-card>
       <v-card-title class="title">
-        Buy tickets of "{{lottery.title}}"
+        Lottery: "{{lottery.title}}""
       </v-card-title>
       <v-card-text>
         <v-text-field

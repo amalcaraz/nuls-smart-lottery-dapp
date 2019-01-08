@@ -1,10 +1,12 @@
 <template>
   <div class="buy-tickets">
-    <v-layout>
-      <v-flex>
-       <buy-tickets-form :lottery="lottery($route.params.lottery)"
-                         @cancel="onCancelForm"
-                         @submit="onBuyTickets"></buy-tickets-form>
+    <v-layout justify-center>
+      <v-flex xs12 sm9 lg7>
+        <buy-tickets-form 
+          :lottery="lottery($route.params.lottery)"
+          @cancel="onCancelForm"
+          @submit="onBuyTickets"
+        ></buy-tickets-form>
       </v-flex>
     </v-layout>
   </div>
@@ -32,7 +34,7 @@ export default class BuyTicketsView extends Vue {
   }
 
   public onCancelForm() {
-    this.$router.push({ name: 'home' });
+    this.$router.back();
   }
 
 }

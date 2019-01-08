@@ -47,4 +47,11 @@ export default class HomeView extends Vue {
 
 }
 </script>
+
+<style lang="scss" scoped>
+.home {
+  position: relative;
+}
+</style>
+
  

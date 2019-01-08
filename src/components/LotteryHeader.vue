@@ -1,7 +1,6 @@
 <template>
   <v-img
-    :src="`https://picsum.photos/400/200?blur&amp;image=${lottery.id + 100}`"
-    aspect-ratio="2.2"
+    :src="`https://picsum.photos/400/160?blur&amp;image=${lottery.id + 100}`"
   >
     <v-container fill-height fluid>
       <v-layout fill-height>

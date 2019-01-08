@@ -1,9 +1,11 @@
 <template>
   <div class="new-lottery">
-    <v-layout>
-      <v-flex>
-       <new-lottery-form @cancel="onCancelForm"
-                         @submit="onNewLottery"></new-lottery-form>
+    <v-layout justify-center>
+      <v-flex xs12 sm9 lg7>
+        <new-lottery-form 
+          @cancel="onCancelForm"
+          @submit="onNewLottery"
+        ></new-lottery-form>
       </v-flex>
     </v-layout>
   </div>
@@ -27,7 +29,7 @@ export default class NewLotteryView extends Vue {
   }
 
   public onCancelForm() {
-    this.$router.push({ name: 'home' });
+    this.$router.back();
   }
 
 }

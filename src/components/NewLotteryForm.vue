@@ -1,9 +1,9 @@
 <template>
   <v-form @submit.prevent="onSubmit" v-model="valid" ref="form">
     <v-card>
-      <v-card-title class="title">
+      <!-- <v-card-title class="title">
         New lottery
-      </v-card-title>
+      </v-card-title> -->
       <v-card-text>
         <v-text-field
           label="Title"

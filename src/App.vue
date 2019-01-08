@@ -1,18 +1,6 @@
 <template>
   <v-app id="app">
-    <v-toolbar app fixed clipped-left class="pa-0">
-      <v-container class="py-0 app-toolbar__container">
-        <v-layout align-center>
-            <v-btn flat icon :to="{name: 'home'}" color="transparent" :ripple="false">
-              <i id="nuls-logo" class="nuls primary--text"></i>
-            </v-btn>
-            <v-toolbar-title class="app-title">
-              <template v-if="routeTitle">{{routeTitle}}</template>
-              <template v-else>Nuls Smart Lottery</template>
-            </v-toolbar-title>
-        </v-layout>
-      </v-container>
-    </v-toolbar>
+    <app-header :routeTitle="routeTitle" :account="account" @logout="logout"></app-header>
     <v-content>
       <v-container fill-height>
         <v-layout justify-center>
@@ -25,26 +13,13 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer height="auto">
-      <v-container>
-        <v-layout wrap>
-          <v-flex xs12 sm6 class="mb-3">
-            <strong class="subheading">Angel Manzano <span class="caption grey--text">&copy; 2018</span></strong>
-            <div class="caption">Contract Address: <a :href="contractAddressUrl" target="_blank" class="grey--text">{{contractAddress}}</a></div>
-          </v-flex>
-          <v-flex xs12 sm6 class="text-sm-right">
-            <strong class="subheading">Donation address</strong>
-            <div class="caption">Nuls: <a href="https://nuls.world/addresses/NsdvprVBQbZLRnXPKiZFBzUbgnnHqi3d" target="_blank" class="grey--text">NsdvprVBQbZLRnXPKiZFBzUbgnnHqi3d</a></div>
-            <div class="caption">Btc: <span class="grey--text">1HZNA6VhuLmQrCE77hurCQwx4cNnj4Avg5</span></div>            
-            <div class="caption">Eth: <span class="grey--text">0x164f78f362f2be22212c23ce427110a18e2e6b5e</span></div>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-footer>
-    <v-snackbar v-model="reloadClaim"
-                multi-line="multi-line"
-                :timeout="0"
-                top>
+    <app-footer></app-footer>
+    <v-snackbar
+      v-model="reloadClaim"
+      multi-line="multi-line"
+      :timeout="0"
+      top
+    >
       The app has been updated
       <v-btn color="success" flat @click="reload">Reload</v-btn>
       <v-btn color="error" flat @click="setReloadClaim(false)">Cancel</v-btn>
@@ -54,33 +29,35 @@
 
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import { mapGetters, mapMutations } from 'vuex';
-  import { nulsWorldAddressUrl } from './services/utils';
-  import config from 'config';
+import { Component, Vue } from 'vue-property-decorator';
+import AppHeader from './components/AppHeader.vue';
+import AppFooter from './components/AppFooter.vue';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { nulsWorldAddressUrl } from './services/utils';
 
-  @Component({
-    computed: {
-      ...mapGetters('layout', ['loading', 'reloadClaim']),
-    },
-    methods: {
-      ...mapMutations('layout', ['setReloadClaim']),
-    },
-  })
-  export default class App extends Vue {
-    public contractAddress: string = config.app.contractAddress;
-    public contractAddressUrl: string = nulsWorldAddressUrl(this.contractAddress, true);
-
-    public get routeTitle(): string {
-      return this.$route.meta.title;
-    }
-
-    public reload() {
-      location.reload(true);
-    }
-
+@Component({
+  computed: {
+    ...mapGetters('layout', ['loading', 'reloadClaim']),
+    ...mapGetters('account', ['account']),
+  },
+  methods: {
+    ...mapMutations('layout', ['setReloadClaim']),
+    ...mapActions('account', ['logout']),
+  },
+  components: {
+    AppHeader,
+    AppFooter,
+  },
+})
+export default class App extends Vue {
+  public get routeTitle(): string {
+    return this.$route.meta.title;
   }
 
+  public reload() {
+    location.reload(true);
+  }
+}
 </script>
 
 
@@ -99,7 +76,7 @@
     margin: 0 auto;
   }
 
-  .v-toolbar__content{
+  .v-toolbar__content {
     padding: 0;
   }
 }
