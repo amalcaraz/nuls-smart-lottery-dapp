@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { address, na } from '../model/common';
 import { naToNuls, nulsToNa } from 'nuls-js';
 import config from 'config';
+import { Lottery } from '@/model/lottery';
 
 export { naToNuls, nulsToNa };
 
@@ -30,4 +31,27 @@ export function isValidAddress(addr: address): boolean {
 
 export function nulsWorldAddressUrl(addr: address, contract: boolean = false) {
   return `${config.app.nulsWorldUrl}/addresses${contract ? '/contracts' : ''}/${addr}`;
+}
+
+export function getPrize(lottery: Lottery, prizeIndex: number): na {
+
+  let totalPrize: na = lottery.totalPot;
+  const prizes: na[] = [totalPrize, 0, 0];
+
+  if (lottery.supportAddress) {
+    totalPrize -= Math.ceil(totalPrize * lottery.supportPercentage / 100);
+    prizes[0] = totalPrize;
+  }
+
+  if (lottery.secondPrizes) {
+
+    prizes[1] = Math.ceil(totalPrize * 25 / 100);
+    prizes[2] = Math.ceil(totalPrize * 10 / 100);
+
+    prizes[0] = prizes[0] - prizes[1] - prizes[2];
+
+  }
+
+  return prizes[prizeIndex - 1];
+
 }

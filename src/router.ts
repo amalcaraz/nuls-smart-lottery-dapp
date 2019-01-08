@@ -15,7 +15,7 @@ const router = new Router({
       },
       component: Home,
       beforeEnter: async (to, from, next) => {
-        await store.dispatch('lottery/fetchLottery');
+        await store.dispatch('lottery/fetchLotteryList');
         next();
       },
     },
@@ -28,7 +28,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "new-lottery" */ './views/NewLottery.vue'),
     },
     {
-      path: '/buy-tickets/:lottery',
+      path: '/lottery/:lottery/buy-tickets',
       name: 'buy-tickets',
       beforeEnter: async (to, from, next) => {
         await store.dispatch('lottery/getLottery', to.params.lottery);
@@ -38,6 +38,18 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "buy-tickets" */ './views/BuyTickets.vue'),
+    },
+    {
+      path: '/lottery/:lottery/detail',
+      name: 'lottery-detail',
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch('lottery/getLotteryDetail', to.params.lottery);
+        next();
+      },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "lottery-detail" */ './views/LotteryDetail.vue'),
     },
     {
       path: '/about',

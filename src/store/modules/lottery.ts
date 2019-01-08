@@ -1,4 +1,4 @@
-import { BuyTicketsModel } from './../../model/lottery';
+import { BuyTicketsModel, LotteryDetail } from './../../model/lottery';
 import * as lotteryService from '../../services/lottery';
 import {
   LotteryList,
@@ -80,9 +80,15 @@ export default {
     },
   },
   actions: {
-    async fetchLottery({ commit }: any, filters: LotteryFilters) {
+    async fetchLotteryList({ commit }: any) {
 
-      const response: LotteryList = await lotteryService.getLotteryList(filters);
+      const response: LotteryList = await lotteryService.getLotteryList();
+      commit('addLottery', response);
+
+    },
+    async fetchLotteryDetail({ commit }: any, id: number) {
+
+      const response: LotteryDetail = await lotteryService.getLotteryDetail(id);
       commit('addLottery', response);
 
     },
@@ -91,7 +97,16 @@ export default {
       const lottery: Lottery = getters.lottery(id);
 
       if (!lottery) {
-        await dispatch('fetchLottery');
+        await dispatch('fetchLotteryList');
+      }
+
+    },
+    async getLotteryDetail({ dispatch, getters }: any, id: number) {
+
+      const lottery: Lottery | LotteryDetail = getters.lottery(id);
+
+      if (!lottery || !(lottery as LotteryDetail).ticketMap) {
+        await dispatch('fetchLotteryDetail', id);
       }
 
     },
@@ -106,7 +121,7 @@ export default {
 
       console.log('pending tx => ', lottery, response);
 
-      await waitAndFetchLottery(dispatch);
+      await waitAndFetchLotteryList(dispatch);
 
     },
 
@@ -121,18 +136,18 @@ export default {
 
       console.log('pending tx => ', tickets, response);
 
-      await waitAndFetchLottery(dispatch);
+      await waitAndFetchLotteryList(dispatch);
 
     },
   },
 };
 
-function waitAndFetchLottery(dispatch: any) {
+function waitAndFetchLotteryList(dispatch: any) {
 
   return new Promise((resolve) => {
 
     setTimeout(async () => {
-      await dispatch('fetchLottery');
+      await dispatch('fetchLotteryList');
       resolve();
     }, 1000 * 10);
     // commit('addLottery', response);

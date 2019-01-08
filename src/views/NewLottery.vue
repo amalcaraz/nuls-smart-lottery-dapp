@@ -19,7 +19,7 @@ import { Lottery, NewLotteryModel } from '@/model/lottery';
     NewLotteryForm,
   },
 })
-export default class NewLottery extends Vue {
+export default class NewLotteryView extends Vue {
 
   public async onNewLottery(lottery: NewLotteryModel) {
     await this.$store.dispatch('lottery/newLottery', lottery);

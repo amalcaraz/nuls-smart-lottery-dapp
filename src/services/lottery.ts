@@ -1,4 +1,4 @@
-import { BuyTicketsModel } from './../model/lottery';
+import { BuyTicketsModel, LotteryDetail } from './../model/lottery';
 import config from 'config';
 import { LotteryFilters, LotteryList, NewLotteryModel } from '../model/lottery';
 import { Contract, TransactionHash } from 'nuls-js';
@@ -19,10 +19,17 @@ async function getContract(): Promise<any> {
 
 }
 
-export async function getLotteryList(filters: LotteryFilters = {}): Promise<LotteryList> {
+export async function getLotteryList(): Promise<LotteryList> {
 
   const contract: any = await getContract();
   return await contract.viewLotteryList();
+
+}
+
+export async function getLotteryDetail(lotteryId: number): Promise<LotteryDetail> {
+
+  const contract: any = await getContract();
+  return await contract.viewLotteryDetails(lotteryId.toString());
 
 }
 

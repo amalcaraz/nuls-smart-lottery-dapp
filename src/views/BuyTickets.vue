@@ -24,7 +24,7 @@ import { mapGetters } from 'vuex';
     BuyTicketsForm,
   },
 })
-export default class BuyTickets extends Vue {
+export default class BuyTicketsView extends Vue {
 
   public async onBuyTickets(tickets: BuyTicketsModel) {
     await this.$store.dispatch('lottery/buyTickets', tickets);

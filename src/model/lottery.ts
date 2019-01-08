@@ -24,6 +24,17 @@ export interface Lottery {
   supportPercentage: number;
 }
 
+export interface LotteryDetail extends Lottery {
+  ticketMap: Record<string, LotteryTicket>;
+}
+
+export interface LotteryTicket {
+  id: number;
+  owner: address;
+  prize: number;
+  prizeAmount: number;
+}
+
 export interface NewLotteryModel {
   title: string;
   desc: string;
