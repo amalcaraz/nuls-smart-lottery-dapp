@@ -21,8 +21,9 @@ import { Lottery } from '../model/lottery';
 @Component({})
 export default class LotteryHeader extends Vue {
   @Prop() public lottery!: Lottery;
+  @Prop({ default: false }) public fullDesc!: boolean;
 
-  public getDescription = (desc: string): string  => desc.length < 100 ? desc : (desc.substr(0, 100) + '...');
+  public getDescription = (desc: string): string  => (this.fullDesc || desc.length < 100) ? desc : (desc.substr(0, 100) + '...');
 
 }
 </script>

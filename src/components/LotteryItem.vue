@@ -2,18 +2,12 @@
   <!-- <v-card elevation-1 :ripple="{class: 'primary--text'}" class="lottery-item"> -->
   <v-card elevation-1 class="lottery-item">
     <lottery-header :lottery="lottery"></lottery-header>
-    <!-- <v-card-title primary-title>
-      <div>
-        <h3 class="headline mb-0">{{lottery.title}}</h3>
-        <div class="description">{{getDescription(lottery.desc)}}</div>
-      </div>
-    </v-card-title> -->
-    <v-card-text>
-      <lottery-summary :lottery="lottery"></lottery-summary>
+    <v-card-text class="summary-wrap pa-0">
+      <lottery-summary :lottery="lottery" class="summary pa-4"></lottery-summary>
     </v-card-text>
     <v-card-actions>
       <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
-      <v-btn flat color="orange" @click="onDetail(lottery.id)">Detail</v-btn>
+      <v-btn flat color="orange" @click="onDetail(lottery.id)">View Detail</v-btn>
       <v-btn v-if="isResolveLottery" flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
     </v-card-actions>
   </v-card>
@@ -57,3 +51,27 @@ export default class LotteryItem extends Vue {
 
 }
 </script>
+
+<style lang="scss" scoped>
+.summary-wrap {
+  height: 250px;
+  position: relative;
+
+  .summary {
+    height: 100%;
+    overflow: auto;
+  }
+
+  &::after {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px -25px 40px -10px #fff, inset 0px 25px 40px -10px #fff;
+  }
+}
+</style>
+

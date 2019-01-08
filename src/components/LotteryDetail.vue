@@ -5,7 +5,7 @@
       <v-container grid-list-md text-xs-left>
         <v-layout row wrap fill-height>
           <v-flex xs12 sm5 >
-            <lottery-header class="lottery-header" :lottery="lottery"></lottery-header>
+            <lottery-header class="lottery-header" :lottery="lottery" :fullDesc="true"></lottery-header>
           </v-flex>
           <v-flex xs12 sm7>
             <lottery-summary :lottery="lottery"></lottery-summary>
