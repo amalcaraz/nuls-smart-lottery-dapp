@@ -6,9 +6,9 @@
       <lottery-summary :lottery="lottery" class="summary pa-4"></lottery-summary>
     </v-card-text>
     <v-card-actions>
-      <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
       <v-btn flat color="orange" @click="onDetail(lottery.id)">View Detail</v-btn>
-      <v-btn v-if="isResolveLottery" flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
+      <v-btn v-if="!isLotteryWaitingToBeResolved" flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
+      <v-btn v-if="isLotteryWaitingToBeResolved" flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -19,6 +19,8 @@ import LotteryStatusCmp from '@/components/LotteryStatus.vue';
 import LotteryHeader from '@/components/LotteryHeader.vue';
 import LotterySummary from '@/components/LotterySummary.vue';
 import { Lottery, LotteryStatus } from '@/model/lottery';
+import { isLotteryWaitingToBeResolved } from '@/services/lottery';
+
 import moment from 'moment';
 
 @Component({
@@ -30,11 +32,8 @@ import moment from 'moment';
 export default class LotteryItem extends Vue {
   @Prop({ default: undefined }) public lottery!: Lottery;
 
-  public get isResolveLottery(): boolean {
-
-    const now = moment();
-    return this.lottery.status !== LotteryStatus.CLOSE && now.isSameOrAfter(this.lottery.endTime, 'millisecond');
-
+  public get isLotteryWaitingToBeResolved(): boolean {
+    return isLotteryWaitingToBeResolved(this.lottery);
   }
 
   public onBuyTickets(id: number) {

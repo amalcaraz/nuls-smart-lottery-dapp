@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div><strong>Status: </strong><span class="grey--text">{{lottery.status | lotteryStatus}}</span></div>
+    <div><strong>Status: </strong><span class="grey--text">{{lottery | lotteryStatus}}</span></div>
     <!-- TODO: Participants progress bar instead of min participants -->      
     <div><strong>Remaining tickets before start: </strong><span class="grey--text">{{lottery.minParticipants}}</span></div>
     <div><strong>Start date: </strong><span class="grey--text">{{lottery.startTime | date}}</span></div>
@@ -28,7 +28,8 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Lottery } from '../model/lottery';
-import { nulsWorldAddressUrl, getPrize } from '../services/utils';
+import { nulsWorldAddressUrl } from '../services/utils';
+import { getPrize } from '../services/lottery';
 import { address, na } from '@/model/common';
 
 @Component({})

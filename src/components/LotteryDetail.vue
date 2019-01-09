@@ -2,12 +2,12 @@
   <div v-if="lottery">
     <section>
       <!-- <h2 class="title">Detail</h2> -->
-      <v-container grid-list-lg text-xs-left>
+      <v-container class="pa-0" grid-list-lg text-xs-left>
         <v-layout row wrap fill-height>
-          <v-flex xs12 sm5 >
+          <v-flex xs12 sm6 md5 >
             <lottery-header class="lottery-header" :lottery="lottery" :fullDesc="true"></lottery-header>
           </v-flex>
-          <v-flex xs12 sm7>
+          <v-flex xs12 sm6 md7>
             <lottery-summary :lottery="lottery"></lottery-summary>
           </v-flex>
         </v-layout>
@@ -15,7 +15,7 @@
     </section>
     <section>
       <h2 class="title">Tickets</h2>
-      <v-container>
+      <v-container class="pa-0">
         <v-layout>
           <ticket-list
             v-if="ticketList.length > 0"
@@ -30,9 +30,10 @@
         </v-layout>
       </v-container>
     </section>
-    <section>
+    <!-- TODO -->
+    <!-- <section>
       <h2 class="title">Winners</h2>
-      <v-container>
+      <v-container class="pa-0">
         <v-layout>
           <ticket-list
             v-if="ticketList.length > 0"
@@ -46,7 +47,7 @@
           </div>
         </v-layout>
       </v-container>
-    </section>
+    </section> -->
   </div>
 </template>
 
@@ -57,7 +58,8 @@ import TicketList from './TicketList.vue';
 import LotteryHeader from './LotteryHeader.vue';
 import LotterySummary from './LotterySummary.vue';
 import { address, na } from '@/model/common';
-import { nulsWorldAddressUrl, getPrize } from '../services/utils';
+import { nulsWorldAddressUrl } from '../services/utils';
+import { getPrize } from '../services/lottery';
 
 @Component({
   components: {

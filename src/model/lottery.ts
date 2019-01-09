@@ -3,7 +3,7 @@ import { address, na, dateNumber } from './common';
 export enum LotteryStatus {
   WAITING = 0,
   OPEN = 1,
-  CLOSE = 2,
+  CLOSED = 2,
 }
 
 export interface Lottery {

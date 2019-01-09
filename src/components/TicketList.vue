@@ -2,17 +2,23 @@
   <v-list two-line subheader>
 
     <!-- <v-subheader inset>All tickets</v-subheader> -->
+    <template v-for="(ticket, key, index) in groupedTickets">
+      <v-list-tile :key="ticket.owner" avatar>
+        <v-list-tile-avatar>
+          <v-icon large color="blue">receipt</v-icon>
+        </v-list-tile-avatar>
 
-    <v-list-tile v-for="ticket in groupedTickets" :key="ticket.owner" avatar>
-      <v-list-tile-avatar>
-        <v-icon large color="blue">receipt</v-icon>
-      </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title><strong>Owner: </strong><a class="grey--text" target="_blank" :href="getAddressUrl(ticket.owner)">{{ ticket.owner }}</a></v-list-tile-title>
+          <v-list-tile-sub-title><strong>Tickets: </strong>{{ ticket.tickets }}, <strong>Invested: </strong>{{ ticket.betted | nulsCurrency}} <i class="nuls"></i></v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
 
-      <v-list-tile-content>
-        <v-list-tile-title><strong>Owner: </strong><a class="grey--text" target="_blank" :href="getAddressUrl(ticket.owner)">{{ ticket.owner }}</a></v-list-tile-title>
-        <v-list-tile-sub-title><strong>Tickets: </strong>{{ ticket.tickets }}, <strong>Invested: </strong>{{ ticket.betted | nulsCurrency}} <i class="nuls"></i></v-list-tile-sub-title>
-      </v-list-tile-content>
-    </v-list-tile>
+      <v-divider
+          v-if="index + 1 < Object.keys(groupedTickets).length"
+          :key="index"
+        ></v-divider>
+    </template>
   </v-list>
 </template>
 

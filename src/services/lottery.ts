@@ -1,8 +1,9 @@
-import { BuyTicketsModel, LotteryDetail } from './../model/lottery';
+import { BuyTicketsModel, LotteryDetail, Lottery, LotteryStatus } from './../model/lottery';
 import config from 'config';
 import { LotteryList, NewLotteryModel } from '../model/lottery';
 import { Contract, TransactionHash } from 'nuls-js';
-import { NulsAccount } from '../model/common';
+import { NulsAccount, na } from '../model/common';
+import moment from 'moment';
 
 const api = config.app.api.explorer;
 
@@ -106,10 +107,39 @@ export async function resolveLottery(account: NulsAccount, lotteryId: number): P
 
 }
 
-// const contract: any = await Contract.at(config.app.contractAddress, { api: config.app.api.explorer });
+export function getPrize(lottery: Lottery, prizeIndex: number): na {
 
-// const fromAddress: string = 'TTarN3iszzfkh2j4doWHsMw3LxJJrq25';
-// const privateKey: string = 'secret!';
+  let totalPrize: na = lottery.totalPot;
+  const prizes: na[] = [totalPrize, 0, 0];
 
-// contract.account(fromAddress, privateKey);
-// this.lotteryList = await contract.viewLotteryList();
+  if (lottery.supportAddress) {
+    totalPrize -= Math.ceil(totalPrize * lottery.supportPercentage / 100);
+    prizes[0] = totalPrize;
+  }
+
+  if (lottery.secondPrizes) {
+
+    prizes[1] = Math.ceil(totalPrize * 25 / 100);
+    prizes[2] = Math.ceil(totalPrize * 10 / 100);
+
+    prizes[0] = prizes[0] - prizes[1] - prizes[2];
+
+  }
+
+  return prizes[prizeIndex - 1];
+
+}
+
+export function isLotteryOpenYet(lottey: Lottery): boolean {
+
+  const now = moment();
+  return lottey.status === LotteryStatus.WAITING && now.isSameOrAfter(lottey.startTime, 'millisecond');
+
+}
+
+export function isLotteryWaitingToBeResolved(lottey: Lottery): boolean {
+
+  const now = moment();
+  return lottey.status !== LotteryStatus.CLOSED && now.isSameOrAfter(lottey.endTime, 'millisecond');
+
+}

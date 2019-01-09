@@ -6,7 +6,7 @@
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox class="head-title">
           <span class="headline mb-0">{{lottery.title}}</span>
-          <div class="description">{{getDescription(lottery.desc)}}</div>
+          <div class="description">{{description}}</div>
         </v-flex>
       </v-layout>
     </v-container>
@@ -22,7 +22,9 @@ export default class LotteryHeader extends Vue {
   @Prop() public lottery!: Lottery;
   @Prop({ default: false }) public fullDesc!: boolean;
 
-  public getDescription = (desc: string): string  => (this.fullDesc || desc.length < 100) ? desc : (desc.substr(0, 100) + '...');
+  public get description(): string  {
+    return (this.fullDesc || this.lottery.desc.length < 100) ? this.lottery.desc : (this.lottery.desc.substr(0, 100) + '...');
+  }
 
 }
 </script>
