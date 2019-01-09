@@ -34,8 +34,8 @@ export default class LoginView extends Vue {
     }
   }
 
-  public onLogin(account: NulsAccountModel) {
-    this.$store.dispatch('account/login', account.privateKey);
+  public onLogin(accountModel: NulsAccountModel) {
+    this.$store.dispatch('account/login', accountModel);
     const redirectPath: string = this.$route.query.redirectUrl as string;
 
     if (!redirectPath) {

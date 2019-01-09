@@ -57,6 +57,11 @@ export default class App extends Vue {
   public reload() {
     location.reload(true);
   }
+
+  public created() {
+    this.$store.dispatch('account/retrieve');
+  }
+
 }
 </script>
 
