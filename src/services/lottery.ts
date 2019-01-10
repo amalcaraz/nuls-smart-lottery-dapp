@@ -130,16 +130,18 @@ export function getPrize(lottery: Lottery, prizeIndex: number): na {
 
 }
 
-export function isLotteryOpenYet(lottey: Lottery): boolean {
+export function getLotteryStatus(lottey: Lottery): LotteryStatus {
 
   const now = moment();
-  return lottey.status === LotteryStatus.WAITING && now.isSameOrAfter(lottey.startTime, 'millisecond');
 
-}
+  if (lottey.status !== LotteryStatus.CLOSED && now.isSameOrAfter(lottey.endTime, 'minutes')) {
+    return LotteryStatus.WAITING_RESOLVE;
+  }
 
-export function isLotteryWaitingToBeResolved(lottey: Lottery): boolean {
+  if (lottey.status === LotteryStatus.WAITING_OPEN && now.isSameOrAfter(lottey.startTime, 'minutes')) {
+    return LotteryStatus.OPEN;
+  }
 
-  const now = moment();
-  return lottey.status !== LotteryStatus.CLOSED && now.isSameOrAfter(lottey.endTime, 'millisecond');
+  return lottey.status;
 
 }

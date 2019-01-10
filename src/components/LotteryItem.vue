@@ -7,34 +7,30 @@
     </v-card-text>
     <v-card-actions>
       <v-btn flat color="orange" @click="onDetail(lottery.id)">View Detail</v-btn>
-      <v-btn v-if="!isLotteryWaitingToBeResolved" flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
-      <v-btn v-if="isLotteryWaitingToBeResolved" flat color="primary" @click="onResolve(lottery.id)">Resolve</v-btn>
+      <btn-buy-tickets :lottery="lottery" @click="onBuyTickets(lottery.id)"/>
+      <btn-resolve-lottery :lottery="lottery" @click="onResolve(lottery.id)"/>
     </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import LotteryStatusCmp from '@/components/LotteryStatus.vue';
 import LotteryHeader from '@/components/LotteryHeader.vue';
 import LotterySummary from '@/components/LotterySummary.vue';
-import { Lottery, LotteryStatus } from '@/model/lottery';
-import { isLotteryWaitingToBeResolved } from '@/services/lottery';
-
-import moment from 'moment';
+import BtnBuyTickets from '@/components/BtnBuyTickets.vue';
+import BtnResolveLottery from '@/components/BtnResolveLottery.vue';
+import { Lottery } from '@/model/lottery';
 
 @Component({
   components: {
     LotteryHeader,
     LotterySummary,
+    BtnBuyTickets,
+    BtnResolveLottery,
   },
 })
 export default class LotteryItem extends Vue {
-  @Prop({ default: undefined }) public lottery!: Lottery;
-
-  public get isLotteryWaitingToBeResolved(): boolean {
-    return isLotteryWaitingToBeResolved(this.lottery);
-  }
+  @Prop() public lottery!: Lottery;
 
   public onBuyTickets(id: number) {
     this.$emit('buyTickets', id);

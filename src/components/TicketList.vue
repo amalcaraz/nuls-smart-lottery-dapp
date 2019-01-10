@@ -72,10 +72,6 @@ export default class TicketList extends Vue {
 
   }
 
-  public onBuyTickets(id: number) {
-    this.$emit('buyTickets', id);
-  }
-
 }
 </script>
 

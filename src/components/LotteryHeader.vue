@@ -1,6 +1,6 @@
 <template>
   <v-img
-    :src="`https://picsum.photos/400/160?blur&amp;image=${lottery.id + 100}`"
+    :src="`https://picsum.photos/400/160?blur&amp;image=${lottery.id + 155}`"
   >
     <v-container fill-height fluid>
       <v-layout fill-height>

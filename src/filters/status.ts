@@ -1,22 +1,18 @@
 import { LotteryStatus, Lottery } from './../model/lottery';
 import Vue from 'vue';
-import { isLotteryWaitingToBeResolved, isLotteryOpenYet } from '@/services/lottery';
+import { getLotteryStatus } from '@/services/lottery';
 
 Vue.filter('lotteryStatus', (lottery: Lottery) => {
 
-  if (isLotteryWaitingToBeResolved(lottery)) {
-    return 'Waiting to be resolved';
-  }
+  const status: LotteryStatus = getLotteryStatus(lottery);
 
-  if (isLotteryOpenYet(lottery)) {
-    return 'Open';
-  }
-
-  switch (lottery.status) {
-    case LotteryStatus.WAITING:
+  switch (status) {
+    case LotteryStatus.WAITING_OPEN:
       return 'Waiting';
     case LotteryStatus.OPEN:
       return 'Open';
+    case LotteryStatus.WAITING_RESOLVE:
+      return 'Waiting to be resolved';
     case LotteryStatus.CLOSED:
       return 'Closed';
     default:

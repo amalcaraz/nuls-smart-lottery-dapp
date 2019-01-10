@@ -25,7 +25,7 @@
         <v-text-field
           label="Price per ticket (in NULS)"
           v-model="modelLottery.ticketPrice"
-          min="0"
+          min="0.01"
           step=".01"
           type="number"
           :rules="amountRules"
@@ -41,9 +41,9 @@
           required
         ></v-text-field>
         <v-text-field
-          label="Minimun number of participants to start the lottery (default 10)"
+          label="Minimun tickets that have to be sold to start the lottery (default 5)"
           v-model="modelLottery.minParticipants"
-          min="10"
+          min="5"
           step="1"
           type="number"
           :rules="minParticipantsRules"
@@ -106,7 +106,7 @@ export default class NewLotteryForm extends Vue {
   public valid: boolean = false;
   public supportSwitch: boolean = false;
   public modelLottery: Record<keyof NewLotteryModel, string> = {
-    minParticipants: 10,
+    minParticipants: 5,
     initialPot: 0,
     secondPrizes: false,
   } as any;
@@ -126,7 +126,7 @@ export default class NewLotteryForm extends Vue {
   ];
 
   public amountRules: any = [
-    (value: string) => (parseFloat(value) > 0) || 'Should be greater than 0',
+    (value: string) => (parseFloat(value) >= 0.01) || 'Should be greater than 0.01',
     this.requiredRules[0],
   ];
 
@@ -136,7 +136,7 @@ export default class NewLotteryForm extends Vue {
   ];
 
   public minParticipantsRules: any = [
-    (value: string) => (parseFloat(value) >= 10) || 'Should be greater than 10',
+    (value: string) => (parseFloat(value) >= 5) || 'Should be greater than 5',
     this.requiredRules[0],
   ];
 
@@ -162,8 +162,8 @@ export default class NewLotteryForm extends Vue {
       ticketPrice: parseFloat(this.modelLottery.ticketPrice), // nulsToNa is done in the contract
       initialPot: nulsToNa(parseFloat(this.modelLottery.initialPot)),
       minParticipants: parseInt(this.modelLottery.minParticipants, 10),
-      startTime: moment(this.modelLottery.startTime).clone().valueOf(),
-      endTime: moment(this.modelLottery.endTime).clone().valueOf(),
+      startTime: moment(this.modelLottery.startTime).startOf('minutes').valueOf(),
+      endTime: moment(this.modelLottery.endTime).startOf('minutes').valueOf(),
       secondPrizes: (this.modelLottery.secondPrizes as any),
       supportAddress: undefined,
       supportPercentage: undefined,

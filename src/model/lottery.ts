@@ -1,8 +1,9 @@
 import { address, na, dateNumber } from './common';
 
 export enum LotteryStatus {
-  WAITING = 0,
+  WAITING_OPEN = 0,
   OPEN = 1,
+  WAITING_RESOLVE = 3,
   CLOSED = 2,
 }
 
@@ -10,7 +11,7 @@ export interface Lottery {
   id: number;
   title: string;
   desc: string;
-  status: LotteryStatus;
+  status: LotteryStatus.WAITING_OPEN | LotteryStatus.OPEN | LotteryStatus.CLOSED;
   minParticipants: number;
   startTime: dateNumber;
   endTime: dateNumber;

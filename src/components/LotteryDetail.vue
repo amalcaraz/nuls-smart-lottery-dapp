@@ -21,11 +21,10 @@
             v-if="ticketList.length > 0"
             :ticketList="ticketList"
             :ticketPrice="lottery.ticketPrice"
-            @buyTickets="onBuyTickets($event)"
           ></ticket-list>
           <div v-else>
             No tickets sold
-            <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
+            <btn-buy-tickets :lottery="lottery" @click="onBuyTickets(lottery.id)"/>
           </div>
         </v-layout>
       </v-container>
@@ -57,6 +56,7 @@ import { LotteryDetail as Detail, LotteryTicket } from '../model/lottery';
 import TicketList from './TicketList.vue';
 import LotteryHeader from './LotteryHeader.vue';
 import LotterySummary from './LotterySummary.vue';
+import BtnBuyTickets from '@/components/BtnBuyTickets.vue';
 import { address, na } from '@/model/common';
 import { nulsWorldAddressUrl } from '../services/utils';
 import { getPrize } from '../services/lottery';
@@ -66,6 +66,7 @@ import { getPrize } from '../services/lottery';
     TicketList,
     LotteryHeader,
     LotterySummary,
+    BtnBuyTickets,
   },
 })
 export default class LotteryDetail extends Vue {
