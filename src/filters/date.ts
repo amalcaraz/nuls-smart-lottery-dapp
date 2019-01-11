@@ -4,6 +4,6 @@ import { dateNumber } from '@/model/common';
 
 Vue.filter('date', (value: dateNumber) => {
   if (value) {
-    return moment(value).format('MM/DD/YYYY hh:mm');
+    return moment(value).format('YYYY/MM/DD HH:mm');
   }
 });

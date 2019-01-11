@@ -17,36 +17,23 @@
       <h2 class="title">Tickets</h2>
       <v-container class="pa-0">
         <v-layout>
-          <ticket-list
-            v-if="ticketList.length > 0"
-            :ticketList="ticketList"
-            :ticketPrice="lottery.ticketPrice"
-          ></ticket-list>
-          <div v-else>
-            No tickets sold
-            <btn-buy-tickets :lottery="lottery" @click="onBuyTickets(lottery.id)"/>
-          </div>
+          <v-flex>
+            <ticket-list
+              v-if="ticketList.length > 0"
+              :ticketList="ticketList"
+              :ticketPrice="lottery.ticketPrice"
+            ></ticket-list>
+            <div v-else>
+              No tickets sold
+              <btn-buy-tickets :lottery="lottery" @click="onBuyTickets(lottery.id)"/>
+            </div>
+          </v-flex>
         </v-layout>
       </v-container>
     </section>
-    <!-- TODO -->
-    <!-- <section>
-      <h2 class="title">Winners</h2>
-      <v-container class="pa-0">
-        <v-layout>
-          <ticket-list
-            v-if="ticketList.length > 0"
-            :ticketList="ticketList"
-            :ticketPrice="lottery.ticketPrice"
-            @buyTickets="onBuyTickets($event)"
-          ></ticket-list>
-          <div v-else>
-            No tickets sold
-            <v-btn flat color="blue" @click="onBuyTickets(lottery.id)">Buy tickets</v-btn>
-          </div>
-        </v-layout>
-      </v-container>
-    </section> -->
+    <section>
+      <lottery-result :lottery="lottery"></lottery-result>
+    </section>
   </div>
 </template>
 
@@ -57,9 +44,9 @@ import TicketList from './TicketList.vue';
 import LotteryHeader from './LotteryHeader.vue';
 import LotterySummary from './LotterySummary.vue';
 import BtnBuyTickets from '@/components/BtnBuyTickets.vue';
+import LotteryResult from '@/components/LotteryResult.vue';
 import { address, na } from '@/model/common';
 import { nulsWorldAddressUrl } from '../services/utils';
-import { getPrize } from '../services/lottery';
 
 @Component({
   components: {
@@ -67,6 +54,7 @@ import { getPrize } from '../services/lottery';
     LotteryHeader,
     LotterySummary,
     BtnBuyTickets,
+    LotteryResult,
   },
 })
 export default class LotteryDetail extends Vue {
@@ -75,8 +63,6 @@ export default class LotteryDetail extends Vue {
   public getAddressUrl = (addr: address): string  => nulsWorldAddressUrl(addr);
 
   public getDescription = (desc: string): string  => desc.length < 100 ? desc : (desc.substr(0, 100) + '...');
-
-  public getPrize = (lottery: Detail, prizeIndex: number): na => getPrize(lottery, prizeIndex);
 
   // TODO: Make this in the smart contract
   public get ticketList(): LotteryTicket[] {

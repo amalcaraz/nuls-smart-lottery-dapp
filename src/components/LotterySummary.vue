@@ -6,22 +6,23 @@
     <div><strong>Start date: </strong><span class="grey--text">{{lottery.startTime | date}}</span></div>
     <div><strong>End date: </strong><span class="grey--text">{{lottery.endTime | date}}</span></div>
 
-    <template v-if="lottery.supportAddress && lottery.supportPercentage">
-      <div class="address"><strong>Support address: </strong><a class="grey--text" target="_blank" :href="getAddressUrl(lottery.supportAddress)">{{lottery.supportAddress}}</a></div>
-      <div><strong>Support percentage: </strong><span class="grey--text">{{lottery.supportPercentage}}</span></div>
-    </template>
-    
     <div><strong>Ticket price: </strong><span class="grey--text">{{lottery.ticketPrice | nulsCurrency}} <i class="nuls"></i></span></div>
     <div><strong>Tickets sold: </strong><span class="grey--text">{{lottery.ticketsCount}}</span></div>
     <div><strong>Initial pot: </strong><span class="grey--text">{{lottery.initialPot | nulsCurrency}} <i class="nuls"></i></span></div>
     <div><strong>Total collected: </strong><span class="grey--text">{{lottery.totalPot | nulsCurrency}} <i class="nuls"></i></span></div>
 
-    <div><strong>1 Prize: </strong><span class="grey--text"> {{getPrize(lottery, 1) | nulsCurrency}} <i class="nuls"></i></span></div>
+    <div><strong>1st Prize: </strong><span class="grey--text"> {{getPrize(lottery, 1) | nulsCurrency}} <i class="nuls"></i></span></div>
     
     <template v-if="lottery.secondPrizes">
-      <div><strong>2 Prize: </strong><span class="grey--text"> {{getPrize(lottery, 2) | nulsCurrency}} <i class="nuls"></i></span></div>
-      <div><strong>3 Prize: </strong><span class="grey--text"> {{getPrize(lottery, 3) | nulsCurrency}} <i class="nuls"></i></span></div>
+      <div><strong>2nd Prize: </strong><span class="grey--text"> {{getPrize(lottery, 2) | nulsCurrency}} <i class="nuls"></i></span></div>
+      <div><strong>3rd Prize: </strong><span class="grey--text"> {{getPrize(lottery, 3) | nulsCurrency}} <i class="nuls"></i></span></div>
     </template>
+
+    <template v-if="lottery.supportAddress && lottery.supportPercentage">
+      <div class="address"><strong>Support address: </strong><a class="grey--text" target="_blank" :href="getAddressUrl(lottery.supportAddress)">{{lottery.supportAddress}}</a></div>
+      <div><strong>Support percentage: </strong><span class="grey--text">{{lottery.supportPercentage}}% of total ({{lottery.totalPot * (lottery.supportPercentage / 100) | nulsCurrency}} <i class="nuls"></i>)</span></div>
+    </template>
+    
   </div>
 </template>
 

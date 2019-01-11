@@ -3,7 +3,7 @@
 
     <!-- <v-subheader inset>All tickets</v-subheader> -->
     <template v-for="(ticket, key, index) in groupedTickets">
-      <v-list-tile :key="ticket.owner" avatar>
+      <v-list-tile :key="ticket.id" avatar>
         <v-list-tile-avatar>
           <v-icon large color="blue">receipt</v-icon>
         </v-list-tile-avatar>
