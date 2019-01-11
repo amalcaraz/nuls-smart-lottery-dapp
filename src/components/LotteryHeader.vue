@@ -1,6 +1,6 @@
 <template>
   <v-img
-    :src="`https://picsum.photos/400/160?blur&amp;image=${lottery.id + 155}`"
+    :src="`https://picsum.photos/${grayImage ? 'g/' : ''}400/160?blur&amp;image=${lottery.id + 155}`"
   >
     <v-container fill-height fluid>
       <v-layout fill-height>
@@ -15,12 +15,16 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Lottery } from '../model/lottery';
+import { Lottery, LotteryStatus } from '../model/lottery';
 
 @Component({})
 export default class LotteryHeader extends Vue {
   @Prop() public lottery!: Lottery;
   @Prop({ default: false }) public fullDesc!: boolean;
+
+  public get grayImage(): boolean  {
+    return this.lottery.status === LotteryStatus.CLOSED;
+  }
 
   public get description(): string  {
     return (this.fullDesc || this.lottery.desc.length < 100) ? this.lottery.desc : (this.lottery.desc.substr(0, 100) + '...');

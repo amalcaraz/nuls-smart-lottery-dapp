@@ -1,12 +1,9 @@
 import { LotteryStatus, Lottery } from './../model/lottery';
 import Vue from 'vue';
-import { getLotteryStatus } from '@/services/lottery';
 
 Vue.filter('lotteryStatus', (lottery: Lottery) => {
 
-  const status: LotteryStatus = getLotteryStatus(lottery);
-
-  switch (status) {
+  switch (lottery.status) {
     case LotteryStatus.WAITING_OPEN:
       return 'Waiting';
     case LotteryStatus.OPEN:

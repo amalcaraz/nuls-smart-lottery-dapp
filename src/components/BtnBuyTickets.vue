@@ -5,18 +5,13 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Lottery, LotteryStatus } from '@/model/lottery';
-import { getLotteryStatus } from '@/services/lottery';
 
 @Component({})
 export default class BtnBuyTickets extends Vue {
   @Prop() public lottery!: Lottery;
 
   public get showButtonBuyTickets(): boolean {
-    return this.lotteryStatus === LotteryStatus.OPEN;
-  }
-
-  public get lotteryStatus(): LotteryStatus {
-    return getLotteryStatus(this.lottery);
+    return this.lottery.status === LotteryStatus.OPEN;
   }
 
 }

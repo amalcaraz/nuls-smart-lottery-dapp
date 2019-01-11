@@ -4,11 +4,15 @@
       <!-- <h2 class="title">Detail</h2> -->
       <v-container class="pa-0" grid-list-lg text-xs-left>
         <v-layout row wrap fill-height>
-          <v-flex xs12 sm6 md5 >
+          <v-flex xs12 sm6 md6>
             <lottery-header class="lottery-header" :lottery="lottery" :fullDesc="true"></lottery-header>
           </v-flex>
-          <v-flex xs12 sm6 md7>
-            <lottery-summary :lottery="lottery"></lottery-summary>
+          <v-flex xs12 sm6 md6>
+            <v-card elevation="0">
+              <v-card-text>
+                <lottery-summary :lottery="lottery"></lottery-summary>                
+              </v-card-text>
+            </v-card>
           </v-flex>
         </v-layout>
       </v-container>

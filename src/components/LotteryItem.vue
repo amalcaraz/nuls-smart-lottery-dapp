@@ -1,6 +1,6 @@
 <template>
   <!-- <v-card elevation-1 :ripple="{class: 'primary--text'}" class="lottery-item"> -->
-  <v-card elevation-1 class="lottery-item">
+  <v-card elevation-1 class="lottery-item" :class="classes">
     <lottery-header :lottery="lottery"></lottery-header>
     <v-card-text class="summary-wrap pa-0">
       <lottery-summary :lottery="lottery" class="summary pa-4"></lottery-summary>
@@ -19,7 +19,7 @@ import LotteryHeader from '@/components/LotteryHeader.vue';
 import LotterySummary from '@/components/LotterySummary.vue';
 import BtnBuyTickets from '@/components/BtnBuyTickets.vue';
 import BtnResolveLottery from '@/components/BtnResolveLottery.vue';
-import { Lottery } from '@/model/lottery';
+import { Lottery, LotteryStatus } from '@/model/lottery';
 
 @Component({
   components: {
@@ -31,6 +31,15 @@ import { Lottery } from '@/model/lottery';
 })
 export default class LotteryItem extends Vue {
   @Prop() public lottery!: Lottery;
+
+  public get classes(): string  {
+    switch (this.lottery.status) {
+      case LotteryStatus.CLOSED:
+        return 'status-closed';
+      default:
+        return '';
+    }
+  }
 
   public onBuyTickets(id: number) {
     this.$emit('buyTickets', id);
@@ -48,6 +57,13 @@ export default class LotteryItem extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+.lottery-item {
+  &.status-closed {
+    opacity: 0.5;
+  }
+}
+
 .summary-wrap {
   height: 250px;
   position: relative;

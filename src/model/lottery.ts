@@ -11,7 +11,7 @@ export interface Lottery {
   id: number;
   title: string;
   desc: string;
-  status: LotteryStatus.WAITING_OPEN | LotteryStatus.OPEN | LotteryStatus.CLOSED;
+  status: LotteryStatus;
   minParticipants: number;
   startTime: dateNumber;
   endTime: dateNumber;

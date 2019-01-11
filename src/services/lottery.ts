@@ -23,14 +23,18 @@ async function getContract(): Promise<any> {
 export async function getLotteryList(): Promise<LotteryList> {
 
   const contract: any = await getContract();
-  return await contract.viewLotteryList();
+  const lotteryList: LotteryList = await contract.viewLotteryList();
+
+  return processLotteryListStatus(lotteryList);
 
 }
 
 export async function getLotteryDetail(lotteryId: number): Promise<LotteryDetail> {
 
   const contract: any = await getContract();
-  return await contract.viewLotteryDetails(lotteryId.toString());
+  const lotteryDetail: LotteryDetail = await contract.viewLotteryDetails(lotteryId.toString());
+
+  return processLotteryListStatus([lotteryDetail])[0] as LotteryDetail;
 
 }
 
@@ -130,7 +134,7 @@ export function getPrize(lottery: Lottery, prizeIndex: number): na {
 
 }
 
-export function getLotteryStatus(lottey: Lottery): LotteryStatus {
+function getLotteryStatus(lottey: Lottery): LotteryStatus {
 
   const now = moment();
 
@@ -143,5 +147,12 @@ export function getLotteryStatus(lottey: Lottery): LotteryStatus {
   }
 
   return lottey.status;
+
+}
+
+function processLotteryListStatus(lotteryList: Lottery[]): Lottery[] {
+
+  lotteryList.forEach((lottery: Lottery) => lottery.status = getLotteryStatus(lottery));
+  return lotteryList;
 
 }

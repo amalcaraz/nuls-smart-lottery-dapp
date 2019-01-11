@@ -23,7 +23,6 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { LotteryDetail as Detail, LotteryTicket } from '../model/lottery';
 import { Lottery, LotteryStatus } from '@/model/lottery';
-import { getLotteryStatus } from '@/services/lottery';
 import WinnerList from './WinnerList.vue';
 
 @Component({
@@ -35,11 +34,7 @@ export default class LotteryResult extends Vue {
   @Prop() public lottery!: Detail;
 
   public get showLotteryResult(): boolean {
-    return this.lotteryStatus === LotteryStatus.CLOSED;
-  }
-
-  public get lotteryStatus(): LotteryStatus {
-    return getLotteryStatus(this.lottery);
+    return this.lottery.status === LotteryStatus.CLOSED;
   }
 
   // TODO: Make this in the smart contract

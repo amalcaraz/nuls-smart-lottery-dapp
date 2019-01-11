@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Lottery } from '../model/lottery';
+import { Lottery, LotteryStatus } from '../model/lottery';
 import LotteryItem from './LotteryItem.vue';
 import config from 'config';
 
@@ -42,16 +42,27 @@ export default class LotteryLost extends Vue {
 
   get lotteryListFiltered(): Lottery[] {
 
+    let filteredLotteryList: Lottery[] = this.lotteryList;
+
     if (this.filter) {
+
       const filterLowerCased: string = this.filter.toLowerCase();
 
-      return this.lotteryList.filter((lottery: Lottery) =>
+      filteredLotteryList = this.lotteryList.filter((lottery: Lottery) =>
         (lottery.title.toLowerCase().indexOf(filterLowerCased) >= 0) ||
         (lottery.desc.toLowerCase().indexOf(filterLowerCased) >= 0),
       );
-    } else {
-      return this.lotteryList;
+
     }
+
+    filteredLotteryList.sort((a: Lottery, b: Lottery) => a.status === LotteryStatus.WAITING_RESOLVE
+      ? -1
+      : b.status === LotteryStatus.WAITING_RESOLVE
+        ? -1
+        : a.status - b.status,
+    );
+
+    return filteredLotteryList;
 
   }
 
