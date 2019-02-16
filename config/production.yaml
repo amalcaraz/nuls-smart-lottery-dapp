@@ -1,7 +1,7 @@
 app:
   env: production
   net: mainnet
-  metaBase: /nuls-smart-lottery-dapp/
+  # metaBase: /nuls-smart-lottery-dapp/
   nulsWorldUrl: https://nuls.world
   api:
     explorer:
