@@ -44,7 +44,7 @@ export default class AppHeader extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #app-header {
   .app-title {
     margin-left: 0;
