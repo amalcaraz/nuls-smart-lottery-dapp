@@ -5,4 +5,4 @@ app:
   nulsWorldUrl: https://nuls.world
   api:
     explorer:
-      host: http://51.158.75.171:8087
+      host: https://explorer.nuls.services
