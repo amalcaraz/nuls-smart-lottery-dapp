@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "deploy:gh": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -32,6 +33,7 @@
     "@vue/cli-service": "^3.2.0",
     "@vue/test-utils": "^1.0.0-beta.20",
     "node-sass": "^4.9.0",
+    "push-dir": "^0.4.1",
     "sass-loader": "^7.0.1",
     "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
