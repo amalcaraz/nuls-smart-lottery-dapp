@@ -81,7 +81,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn color="error" flat @click.stop="onCancel">Cancel</v-btn>
-        <v-btn color="warning" flat @click.stop="$refs.form.reset()">Reset</v-btn>
+        <v-btn color="warning" flat @click.stop="clearForm()">Reset</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="primary" type="submit" :disabled="!valid">Create lottery</v-btn>
       </v-card-actions>

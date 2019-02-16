@@ -8,7 +8,7 @@ app:
   itemsToShowSearcher: 10
   api:
     explorer:
-      host: https://testnet.nuls.world
+      host: http://localhost:3000
       base: ''
     coinmarketcap:
       host: https://api.coinmarketcap.com

@@ -4,6 +4,7 @@ import layout from './modules/layout';
 import error from './modules/error';
 import account from './modules/account';
 import lottery from './modules/lottery';
+import transactionMonitor from './modules/transactionMonitor';
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ const store = new Vuex.Store({
     error,
     account,
     lottery,
+    transactionMonitor,
   },
 });
 

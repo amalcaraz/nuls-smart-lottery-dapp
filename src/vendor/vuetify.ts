@@ -11,8 +11,6 @@ export const customTheme = {
   success: '#8ab54d',
 };
 
-console.log(customTheme);
-
 Vue.use(Vuetify, {
   theme: {
     primary: customTheme.primary,

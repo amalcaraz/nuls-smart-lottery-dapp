@@ -1,7 +1,7 @@
 import { BuyTicketsModel, LotteryDetail, Lottery, LotteryStatus } from './../model/lottery';
 import config from 'config';
 import { LotteryList, NewLotteryModel } from '../model/lottery';
-import { Contract, TransactionHash } from 'nuls-js';
+import { Contract, TransactionReceipt, PromiEvent } from 'nuls-js';
 import { NulsAccount, na } from '../model/common';
 import moment from 'moment';
 
@@ -19,6 +19,14 @@ async function getContract(): Promise<any> {
   return Promise.resolve(_contract);
 
 }
+
+// function pipePromiEvent(source: PromiEvent<any>, target: PromiEvent<any>): void {
+
+//   source.eventNames().forEach((event: string | symbol) => source.on(event, target.emit.bind(target)));
+//   source.then(target.then.bind(target));
+//   source.catch(target.catch.bind(target));
+
+// }
 
 export async function getLotteryList(): Promise<LotteryList> {
 
@@ -38,76 +46,91 @@ export async function getLotteryDetail(lotteryId: number): Promise<LotteryDetail
 
 }
 
-export async function newLottery(account: NulsAccount, lottery: NewLotteryModel): Promise<TransactionHash> {
+export function newLottery(account: NulsAccount, lottery: NewLotteryModel, pe = new PromiEvent()): PromiEvent<TransactionReceipt> {
 
-  const contract: any = await getContract();
+  getContract().then((contract) => {
 
-  if (lottery.supportAddress && lottery.supportPercentage) {
+    if (lottery.supportAddress && lottery.supportPercentage) {
 
-    return await contract.createLotteryWithSupportAddress(
-      lottery.title.toString(),
-      lottery.desc.toString(),
-      lottery.ticketPrice.toString(),
-      lottery.startTime.toString(),
-      lottery.endTime.toString(),
-      lottery.minParticipants.toString(),
-      lottery.secondPrizes.toString(),
-      lottery.supportAddress.toString(),
-      lottery.supportPercentage.toString(),
-      {
-        sender: account.address,
-        privateKey: account.privateKey,
-        value: lottery.initialPot || 0,
-      },
-    );
+      return contract.createLotteryWithSupportAddress(
+        lottery.title.toString(),
+        lottery.desc.toString(),
+        lottery.ticketPrice.toString(),
+        lottery.startTime.toString(),
+        lottery.endTime.toString(),
+        lottery.minParticipants.toString(),
+        lottery.secondPrizes.toString(),
+        lottery.supportAddress.toString(),
+        lottery.supportPercentage.toString(),
+        {
+          sender: account.address,
+          privateKey: account.privateKey,
+          value: lottery.initialPot || 0,
+          listener: pe,
+        },
+      );
 
-  } else {
+    } else {
 
-    return await contract.createLottery(
-      lottery.title.toString(),
-      lottery.desc.toString(),
-      lottery.ticketPrice.toString(),
-      lottery.startTime.toString(),
-      lottery.endTime.toString(),
-      lottery.minParticipants.toString(),
-      lottery.secondPrizes.toString(),
-      {
-        sender: account.address,
-        privateKey: account.privateKey,
-        value: lottery.initialPot || 0,
-      },
-    );
+      return contract.createLottery(
+        lottery.title.toString(),
+        lottery.desc.toString(),
+        lottery.ticketPrice.toString(),
+        lottery.startTime.toString(),
+        lottery.endTime.toString(),
+        lottery.minParticipants.toString(),
+        lottery.secondPrizes.toString(),
+        {
+          sender: account.address,
+          privateKey: account.privateKey,
+          value: lottery.initialPot || 0,
+          listener: pe,
+        },
+      );
 
-  }
+    }
+  });
 
-}
-
-export async function buyTickets(account: NulsAccount, tickets: BuyTicketsModel): Promise<TransactionHash> {
-
-  const contract: any = await getContract();
-
-  return await contract.buyTickets(
-    tickets.id.toString(),
-    {
-      sender: account.address,
-      privateKey: account.privateKey,
-      value: (tickets.ticketsCount * tickets.ticketPrice) || 0,
-    },
-  );
+  return pe;
 
 }
 
-export async function resolveLottery(account: NulsAccount, lotteryId: number): Promise<TransactionHash> {
+export function buyTickets(account: NulsAccount, tickets: BuyTicketsModel, pe = new PromiEvent()): PromiEvent<TransactionReceipt> {
 
-  const contract: any = await getContract();
+  getContract().then((contract) => {
 
-  return await contract.claimPrizes(
-    lotteryId.toString(),
-    {
-      sender: account.address,
-      privateKey: account.privateKey,
-    },
-  );
+    return contract.buyTickets(
+      tickets.id.toString(),
+      {
+        sender: account.address,
+        privateKey: account.privateKey,
+        value: (tickets.ticketsCount * tickets.ticketPrice) || 0,
+        listener: pe,
+      },
+    );
+
+  });
+
+  return pe;
+
+}
+
+export function resolveLottery(account: NulsAccount, lotteryId: number, pe = new PromiEvent()): PromiEvent<TransactionReceipt> {
+
+  getContract().then((contract) => {
+
+    return contract.claimPrizes(
+      lotteryId.toString(),
+      {
+        sender: account.address,
+        privateKey: account.privateKey,
+        listener: pe,
+      },
+    );
+
+  });
+
+  return pe;
 
 }
 

@@ -46,24 +46,20 @@ export default class TicketList extends Vue {
 
     return this.ticketList.reduce((prev: Record<address, AggregatedTicket>, curr: LotteryTicket) => {
 
-      if (prev[curr.owner]) {
-
-        prev[curr.owner].tickets++;
-        prev[curr.owner].betted += this.ticketPrice;
-
-        if (curr.prize) {
-          prev[curr.owner].prizes.push(curr.prize);
-        }
-
-      } else {
-
+      if (!prev[curr.owner]) {
         prev[curr.owner] = {
           owner: curr.owner,
           tickets: 0,
           prizes: [],
           betted: 0,
         };
+      }
 
+      prev[curr.owner].tickets++;
+      prev[curr.owner].betted += this.ticketPrice;
+
+      if (curr.prize) {
+        prev[curr.owner].prizes.push(curr.prize);
       }
 
       return prev;

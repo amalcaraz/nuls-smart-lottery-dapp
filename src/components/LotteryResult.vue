@@ -37,15 +37,13 @@ export default class LotteryResult extends Vue {
     return this.lottery.status === LotteryStatus.CLOSED;
   }
 
-  // TODO: Make this in the smart contract
   public get winnerList(): LotteryTicket[] {
-    // debugger
     return this.ticketList.filter((ticket: LotteryTicket) => ticket.prize > 0).sort((a: LotteryTicket, b: LotteryTicket) => a.prize - b.prize);
   }
 
   // TODO: Make this in the smart contract
   public get ticketList(): LotteryTicket[] {
-    return Object.values(this.lottery.ticketMap);
+    return this.lottery.ticketMap ? Object.values(this.lottery.ticketMap) : [];
   }
 
 }

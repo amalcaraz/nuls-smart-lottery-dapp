@@ -70,7 +70,7 @@ export default class LotteryDetail extends Vue {
 
   // TODO: Make this in the smart contract
   public get ticketList(): LotteryTicket[] {
-    return Object.values(this.lottery.ticketMap);
+    return this.lottery.ticketMap ? Object.values(this.lottery.ticketMap) : [];
   }
 
   public onBuyTickets(id: number) {

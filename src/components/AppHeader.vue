@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar app fixed clipped-left class="pa-0">
+  <v-toolbar id="app-header" app fixed clipped-left class="pa-0">
     <v-container class="py-0 app-toolbar__container">
       <v-layout align-center>
         <v-btn flat icon :to="{name: 'home'}" color="transparent" :ripple="false">
@@ -10,10 +10,8 @@
           <template v-else>Nuls Smart Lottery</template>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn v-if="!account && $route.name !== 'login'" flat :to="{name: 'login'}">
-          <v-icon class="mr-1">power_settings_new</v-icon>Login
-        </v-btn>
-        <account-menu v-if="!!account" :account="account" @logout="onLogout"></account-menu>
+        <transaction-monitor-button :transactions="transactions" @click="onOpenMonitor"></transaction-monitor-button>
+        <account-menu :account="account" @logout="onLogout"></account-menu>
       </v-layout>
     </v-container>
   </v-toolbar>
@@ -21,22 +19,48 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { NulsAccount } from '@/model/common';
+import { NulsAccount } from '../model/common';
 import AccountMenu from './AccountMenu.vue';
-import { nulsWorldAddressUrl } from '../services/utils';
-import config from 'config';
+import TransactionMonitorButton from './TransactionMonitorButton.vue';
 
 @Component({
   components: {
     AccountMenu,
+    TransactionMonitorButton,
   },
 })
 export default class AppHeader extends Vue {
   @Prop() public routeTitle!: string;
-  @Prop() public account!: string;
+  @Prop() public account!: NulsAccount;
+  @Prop() public transactions!: any;
+
+  public onOpenMonitor() {
+    this.$emit('openMonitor');
+  }
 
   public onLogout() {
     this.$emit('logout');
   }
 }
 </script>
+
+<style lang="scss" scoped>
+#app-header {
+  .app-title {
+    margin-left: 0;
+  }
+
+  .app-toolbar__container {
+    margin: 0 auto;
+  }
+
+  .v-toolbar__content {
+    padding: 0;
+  }
+
+  #nuls-logo {
+    width: 100%;
+    height: 40px;
+  }
+}
+</style>

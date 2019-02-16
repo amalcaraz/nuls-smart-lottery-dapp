@@ -29,3 +29,11 @@ export function naToNulsFixed(nuls: na, fixed: number = 2): number {
 export function nulsWorldAddressUrl(addr: address, contract: boolean = false) {
   return `${config.app.nulsWorldUrl}/addresses${contract ? '/contracts' : ''}/${addr}`;
 }
+
+export function nulsWorldTransactionUrl(txHash: address) {
+  return `${config.app.nulsWorldUrl}/transactions/${txHash}`;
+}
+
+export function nulsWorldBlockUrl(blockHash: address) {
+  return `${config.app.nulsWorldUrl}/blocks/${blockHash}`;
+}

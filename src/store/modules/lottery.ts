@@ -1,3 +1,4 @@
+import { TransactionStatus, TransactionStatusStatus } from './transactionMonitor';
 import { BuyTicketsModel, LotteryDetail } from './../../model/lottery';
 import * as lotteryService from '../../services/lottery';
 import {
@@ -5,8 +6,16 @@ import {
   Lottery,
   NewLotteryModel,
 } from '../../model/lottery';
-import { NulsAccount } from '../../model/common';
+import { NulsAccount, AppNotificationModel } from '../../model/common';
 import router from '../../router';
+import { TransactionReceipt, PromiEvent, TransactionHash } from 'nuls-js';
+import moment from 'moment';
+
+const errorNotification: AppNotificationModel = {
+  kind: 'error',
+  timeout: 1000 * 5,
+  message: '',
+};
 
 export default {
   namespaced: true,
@@ -31,14 +40,30 @@ export default {
   actions: {
     async fetchLotteryList({ commit }: any) {
 
-      const response: LotteryList = await lotteryService.getLotteryList();
-      commit('addLottery', response);
+      try {
+
+        const response: LotteryList = await lotteryService.getLotteryList();
+        commit('addLottery', response);
+
+      } catch (e) {
+
+        handleErrors(e, commit);
+
+      }
 
     },
     async fetchLotteryDetail({ commit }: any, id: number) {
 
-      const response: LotteryDetail = await lotteryService.getLotteryDetail(id);
-      commit('addLottery', response);
+      try {
+
+        const response: LotteryDetail = await lotteryService.getLotteryDetail(id);
+        commit('addLottery', response);
+
+      } catch (e) {
+
+        handleErrors(e, commit);
+
+      }
 
     },
     async getLottery({ dispatch, getters }: any, id: number) {
@@ -61,73 +86,145 @@ export default {
     },
     async newLottery({ commit, dispatch, rootGetters }: any, lottery: NewLotteryModel) {
 
-      const account: NulsAccount = rootGetters['account/account'];
+      const txStatus = {
+        title: 'Create lottery',
+      } as TransactionStatus;
 
-      if (!account) {
-        router.push({ name: 'login' });
-        throw new Error('Not logged in');
+      try {
+
+        const account: NulsAccount = rootGetters['account/account'];
+        checkAccount(account);
+
+        commit('layout/setLoading', true, { root: true });
+
+        const response: PromiEvent<TransactionReceipt> = lotteryService.newLottery(account, lottery);
+
+        response.on('txHash', (txHash: TransactionHash) => {
+          updateTransactionStatus('pending', txStatus, txHash, commit);
+        });
+
+        const txReceipt: TransactionReceipt = await (response as Promise<TransactionReceipt>);
+        updateTransactionStatus('mined', txStatus, txReceipt, commit);
+
+        await dispatch('fetchLotteryList');
+
+      } catch (e) {
+
+        handleErrors(e, commit, txStatus);
+
       }
-
-      commit('layout/setLoading', true, { root: true });
-
-      const response: string = await lotteryService.newLottery(account, lottery);
-
-      console.log('pending tx => ', lottery, response);
-
-      await waitAndFetchLotteryList(dispatch);
-
 
     },
     async buyTickets({ commit, dispatch, rootGetters }: any, tickets: BuyTicketsModel) {
 
-      const account: NulsAccount = rootGetters['account/account'];
+      const txStatus = {
+        title: 'Buy tickets',
+      } as TransactionStatus;
 
-      if (!account) {
-        router.push({ name: 'login' });
-        throw new Error('Not logged in');
+      try {
+
+        const account: NulsAccount = rootGetters['account/account'];
+        checkAccount(account);
+
+        commit('layout/setLoading', true, { root: true });
+
+        const response: PromiEvent<TransactionReceipt> = lotteryService.buyTickets(account, tickets);
+
+        response.on('txHash', (txHash: TransactionHash) => {
+          updateTransactionStatus('pending', txStatus, txHash, commit);
+        });
+
+        const txReceipt: TransactionReceipt = await (response as Promise<TransactionReceipt>);
+        updateTransactionStatus('mined', txStatus, txReceipt, commit);
+
+        await dispatch('fetchLotteryList');
+
+      } catch (e) {
+
+        handleErrors(e, commit, txStatus);
+
       }
-
-      commit('layout/setLoading', true, { root: true });
-
-      const response: string = await lotteryService.buyTickets(account, tickets);
-
-      console.log('pending tx => ', tickets, response);
-
-      await waitAndFetchLotteryList(dispatch);
 
     },
     async resolveLottery({ commit, dispatch, rootGetters }: any, id: number) {
 
-      const account: NulsAccount = rootGetters['account/account'];
+      const txStatus = {
+        title: 'Resolve lottery',
+      } as TransactionStatus;
 
-      if (!account) {
-        router.push({ name: 'login' });
-        throw new Error('Not logged in');
+      try {
+
+        const account: NulsAccount = rootGetters['account/account'];
+        checkAccount(account);
+
+        commit('layout/setLoading', true, { root: true });
+
+        const response: PromiEvent<TransactionReceipt> = lotteryService.resolveLottery(account, id);
+
+        response.on('txHash', (txHash: TransactionHash) => {
+          updateTransactionStatus('pending', txStatus, txHash, commit);
+        });
+
+        const txReceipt: TransactionReceipt = await (response as Promise<TransactionReceipt>);
+        updateTransactionStatus('mined', txStatus, txReceipt, commit);
+
+        await dispatch('fetchLotteryList');
+
+      } catch (e) {
+
+        handleErrors(e, commit, txStatus);
+
       }
-
-      commit('layout/setLoading', true, { root: true });
-
-      const response: string = await lotteryService.resolveLottery(account, id);
-
-      console.log('pending tx => ', id, response);
-
-      await waitAndFetchLotteryList(dispatch);
-
 
     },
   },
 };
 
-function waitAndFetchLotteryList(dispatch: any) {
+function updateTransactionStatus(
+  status: TransactionStatusStatus, txStatus: TransactionStatus, data: TransactionReceipt | TransactionHash | string, commit: any): void {
 
-  return new Promise((resolve) => {
+  switch (status) {
+    case 'mined':
+      txStatus.hash = (data as TransactionReceipt).hash;
+      txStatus.blockHeight = (data as TransactionReceipt).blockHeight;
+      break;
+    case 'pending':
+      txStatus.hash = (data as TransactionHash);
+      break;
+    case 'error':
+      txStatus.error = (data as string);
+      txStatus.hash = txStatus.hash || `${txStatus.date}`;
+      break;
+  }
 
-    setTimeout(async () => {
-      await dispatch('fetchLotteryList');
-      resolve();
-    }, 1000 * 10);
-    // commit('addLottery', response);
+  txStatus.status = status;
+  txStatus.date = moment().valueOf();
+  commit('transactionMonitor/setTransaction', txStatus, { root: true });
 
-  });
+}
+
+function checkAccount(account: any) {
+
+  if (!account) {
+    router.push({ name: 'login' });
+    throw new Error('Not logged in');
+  }
+
+}
+
+function handleErrors(e: Error, commit: any, txStatus?: TransactionStatus) {
+
+  // Format contract error messages
+  const message = e.message.replace(/^(.+) - (.+)/, '$2');
+
+  if (txStatus) {
+
+    updateTransactionStatus('error', txStatus, message, commit);
+
+  }
+
+  commit('layout/setNotification', { ...errorNotification, message }, { root: true });
+  commit('layout/setLoading', false, { root: true });
+  throw e;
 
 }
