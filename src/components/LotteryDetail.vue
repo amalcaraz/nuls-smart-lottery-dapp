@@ -27,10 +27,8 @@
               :ticketList="ticketList"
               :ticketPrice="lottery.ticketPrice"
             ></ticket-list>
-            <div v-else>
-              No tickets sold
-              <btn-buy-tickets :lottery="lottery" @click="onBuyTickets(lottery.id)"/>
-            </div>
+            <div v-else>No tickets sold</div>
+            <btn-buy-tickets :lottery="lottery" @click="onBuyTickets(lottery.id)"/>
           </v-flex>
         </v-layout>
       </v-container>

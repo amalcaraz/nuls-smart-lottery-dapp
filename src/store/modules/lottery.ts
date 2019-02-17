@@ -212,18 +212,22 @@ function checkAccount(account: any) {
 
 }
 
-function handleErrors(e: Error, commit: any, txStatus?: TransactionStatus) {
+function handleErrors(e: any, commit: any, txStatus?: TransactionStatus) {
 
   // Format contract error messages
-  const message = e.message.replace(/^(.+) - (.+)/, '$2');
+  e.message = e.message.replace(/^(.+) - (.+)/, '$2');
+
+  if (e.response && e.response.data) {
+    e = new Error(`${e.response.data.message}${e.response.data.extendedMessage ? (' - ' + e.response.data.extendedMessage) : ''}`);
+  }
 
   if (txStatus) {
 
-    updateTransactionStatus('error', txStatus, message, commit);
+    updateTransactionStatus('error', txStatus, e.message, commit);
 
   }
 
-  commit('layout/setNotification', { ...errorNotification, message }, { root: true });
+  commit('layout/setNotification', { ...errorNotification, message: e.message }, { root: true });
   commit('layout/setLoading', false, { root: true });
   throw e;
 
