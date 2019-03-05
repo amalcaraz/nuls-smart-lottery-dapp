@@ -5,7 +5,7 @@
         <v-flex xs12 sm6 class="mb-3">
           <strong class="subheading">Angel Manzano <span class="caption grey--text">&copy; 2018</span></strong>
           <div class="caption">Contract Address: <a :href="contractAddressUrl" target="_blank" class="grey--text">{{contractAddress}}</a></div>
-          <div class="caption">Net: <span class="grey--text">{{net}} (1.2.0-beta1)</span></div>
+          <div class="caption">Network: <span class="grey--text">{{net}} ({{netVersion}})</span></div>
         </v-flex>
         <v-flex xs12 sm6 class="text-sm-right">
           <strong class="subheading">Donation address</strong>
@@ -28,6 +28,7 @@ import config from 'config';
 export default class AppFooter extends Vue {
   public contractAddress: string = config.app.contractAddress;
   public net: string = config.app.net;
+  public netVersion: string = config.app.netVersion;
   public contractAddressUrl: string = nulsWorldAddressUrl(this.contractAddress, true);
 }
 </script>

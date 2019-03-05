@@ -1,5 +1,5 @@
 import { TransactionStatus, TransactionStatusStatus } from './transactionMonitor';
-import { BuyTicketsModel, LotteryDetail } from './../../model/lottery';
+import { BuyTicketsModel, LotteryDetail } from '../../model/lottery';
 import * as lotteryService from '../../services/lottery';
 import {
   LotteryList,

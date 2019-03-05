@@ -1,4 +1,4 @@
-import { LotteryStatus, Lottery } from './../model/lottery';
+import { LotteryStatus, Lottery } from '../model/lottery';
 import Vue from 'vue';
 
 Vue.filter('lotteryStatus', (lottery: Lottery) => {

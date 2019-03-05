@@ -1,4 +1,4 @@
-import { BuyTicketsModel, LotteryDetail, Lottery, LotteryStatus } from './../model/lottery';
+import { BuyTicketsModel, LotteryDetail, Lottery, LotteryStatus } from '../model/lottery';
 import config from 'config';
 import { LotteryList, NewLotteryModel } from '../model/lottery';
 import { Contract, TransactionReceipt, PromiEvent } from 'nuls-js';

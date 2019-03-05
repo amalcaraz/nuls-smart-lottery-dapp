@@ -1,10 +1,10 @@
 <template>
-  <v-btn flat icon class="mr-1" color="grey darken-2" @click="onClick">
+  <v-btn flat icon class="mr-2" color="grey darken-2" @click="onClick">
     <v-badge :value="show" overlap right :color="badgeColor">
       <v-icon v-if="badgeIcon" slot="badge" dark small>{{badgeIcon}}</v-icon>
       <span v-if="!badgeIcon" slot="badge">{{this.pendingTransactions.length}}</span>
       <!-- Material font is bugged for this icon -->
-      <v-icon large color="" :style="{width: '36px', 'text-indent': '144px'}">swap_vertical</v-icon>
+      <v-icon large color="" :style="{width: '36px', 'text-indent': '144px', overflow: 'hidden'}">swap_vertical</v-icon>
     </v-badge>
   </v-btn>
 </template>

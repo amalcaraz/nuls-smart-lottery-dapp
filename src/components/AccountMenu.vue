@@ -3,7 +3,7 @@
     <v-btn v-if="!account && $route.name !== 'login'" flat :to="{name: 'login'}">
       <v-icon class="mr-1">power_settings_new</v-icon>Login
     </v-btn>
-    <v-layout v-if="!!account" align-center>
+    <v-layout v-if="!!account" align-center class="ml-2">
       <v-flex><v-icon large>account_circle</v-icon></v-flex>
       <v-flex class="ml-1"><span>{{ account.address }}</span></v-flex>
       <v-flex>
