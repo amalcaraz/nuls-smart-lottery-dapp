@@ -12,7 +12,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "config": "^3.0.1",
     "moment": "^2.23.0",
     "nuls-js": "^1.0.4",
